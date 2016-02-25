@@ -1,5 +1,7 @@
 package at.technikum.bic4a16.bi.service;
 
+import at.technikum.bic4a16.bi.model.FinancialTransaction;
+import at.technikum.bic4a16.bi.model.FinancialTransactionRequest;
 import javax.annotation.Resource;
 import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.enterprise.context.SessionScoped;
@@ -16,12 +18,12 @@ import java.io.Serializable;
 
 @SessionScoped
 @Default
-public final class DefaultFinancialService implements FinancialService, Serializable{
+public final class DefaultFinancialService implements FinancialService, Serializable {
 
     @Resource
     private ManagedExecutorService managedExecutorService;
 
-    private final EntityManagerFactory factory = Persistence.createEntityManagerFactory("FinancialTransaction");
+    private final EntityManagerFactory factory;
 
     private Runnable stockExchangeTransaction(FinancialTransaction transaction) {
         return new Runnable() {

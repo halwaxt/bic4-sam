@@ -1,5 +1,7 @@
 package at.technikum.bic4a16.bi.service;
 
+import at.technikum.bic4a16.bi.model.FinancialTransaction;
+import at.technikum.bic4a16.bi.model.FinancialTransactionRequest;
 import java.util.UUID;
 
 /**

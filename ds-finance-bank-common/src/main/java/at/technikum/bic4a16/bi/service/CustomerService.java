@@ -1,5 +1,9 @@
 package at.technikum.bic4a16.bi.service;
 
+import at.technikum.bic4a16.bi.model.Customer;
+import at.technikum.bic4a16.bi.model.FinancialTransaction;
+import at.technikum.bic4a16.bi.model.Stock;
+
 /**
  * Created by Thomas on 25.02.16.
  */
