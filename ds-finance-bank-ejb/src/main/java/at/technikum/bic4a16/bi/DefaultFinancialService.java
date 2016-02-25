@@ -1,24 +1,22 @@
 package at.technikum.bic4a16.bi;
 
 import javax.annotation.Resource;
-import javax.ejb.Stateless;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.UUID;
 import javax.enterprise.concurrent.ManagedExecutorService;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.io.Serializable;
 
 /**
  * Created by Thomas on 24.02.16.
  */
 
 @SessionScoped
-public final class DefaultBankster implements Bankster, Serializable{
+@Default
+public final class DefaultFinancialService implements FinancialService, Serializable{
 
     @Resource
     private ManagedExecutorService managedExecutorService;
@@ -52,36 +50,6 @@ public final class DefaultBankster implements Bankster, Serializable{
         managedExecutorService.execute(stockExchangeTransaction(null));
 
 
-        return new FinancialTransaction() {
-            @Override
-            public Customer getCustomer() {
-                return null;
-            }
-
-            @Override
-            public Company getCompany() {
-                return null;
-            }
-
-            @Override
-            public State getState() {
-                return null;
-            }
-
-            @Override
-            public UUID getId() {
-                return null;
-            }
-
-            @Override
-            public long getNumberOfShares() {
-                return 0;
-            }
-
-            @Override
-            public BigDecimal getAmount() {
-                return null;
-            }
-        };
+        return null;
     }
 }

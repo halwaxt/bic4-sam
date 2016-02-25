@@ -9,4 +9,6 @@ public interface Company {
     String getName();
     String getSymbol();
     BigDecimal getLastTradingPrice();
+    long getFloatShares();
+    String getStockExchange();
 }

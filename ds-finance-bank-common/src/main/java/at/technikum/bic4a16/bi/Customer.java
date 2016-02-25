@@ -5,4 +5,5 @@ package at.technikum.bic4a16.bi;
  */
 public interface Customer {
     int getId();
+    String getName();
 }
