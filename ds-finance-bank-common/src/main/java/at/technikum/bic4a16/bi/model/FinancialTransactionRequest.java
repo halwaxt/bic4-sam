@@ -1,4 +1,4 @@
-package at.technikum.bic4a16.bi;
+package at.technikum.bic4a16.bi.model;
 
 /**
  * Created by Thomas on 25.02.16.

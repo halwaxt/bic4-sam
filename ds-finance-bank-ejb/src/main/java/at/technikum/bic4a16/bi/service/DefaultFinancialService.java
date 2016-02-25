@@ -1,4 +1,4 @@
-package at.technikum.bic4a16.bi;
+package at.technikum.bic4a16.bi.service;
 
 import javax.annotation.Resource;
 import javax.enterprise.concurrent.ManagedExecutorService;
