@@ -6,5 +6,5 @@ import java.util.UUID;
  * Created by Thomas on 24.02.16.
  */
 public interface Bankster {
-    public UUID executeTransaction(FinancialTransaction financialTransaction);
+    FinancialTransaction executeTransaction(FinancialTransactionRequest request);
 }
