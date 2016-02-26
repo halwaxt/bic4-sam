@@ -6,6 +6,9 @@ import at.technikum.bic4a16.bi.model.Company;
  * Created by Thomas on 25.02.16.
  */
 public interface CompanyService {
+    // get a company by the unique symbol
     Company getCompany(String symbol);
+    
+    // get all companies
     Company[] getAllCompanies();
 }
