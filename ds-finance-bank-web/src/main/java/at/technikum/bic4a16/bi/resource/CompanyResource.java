@@ -7,7 +7,6 @@ package at.technikum.bic4a16.bi.resource;
  */
 
 /**
- *
  * @author Patrik
  */
 public class CompanyResource {

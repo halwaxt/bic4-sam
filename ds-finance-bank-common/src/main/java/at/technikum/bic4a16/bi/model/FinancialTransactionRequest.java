@@ -5,6 +5,8 @@ package at.technikum.bic4a16.bi.model;
  */
 public interface FinancialTransactionRequest {
     Company getCompany();
+
     Customer getCustomer();
+
     long getNumberOfShares();
 }

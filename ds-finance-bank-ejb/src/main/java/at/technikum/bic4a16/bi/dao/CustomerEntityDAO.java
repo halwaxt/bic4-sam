@@ -6,9 +6,8 @@
 package at.technikum.bic4a16.bi.dao;
 
 /**
- *
  * @author Patrik
  */
 public class CustomerEntityDAO {
-    
+
 }
