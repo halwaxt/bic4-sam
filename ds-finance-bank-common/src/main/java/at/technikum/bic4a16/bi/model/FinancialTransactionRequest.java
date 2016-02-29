@@ -7,4 +7,5 @@ public interface FinancialTransactionRequest {
     Company getCompany();
     Customer getCustomer();
     long getNumberOfShares();
+    Action getAction();
 }
