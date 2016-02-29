@@ -9,4 +9,5 @@ public interface FinancialTransactionRequest {
     Customer getCustomer();
 
     long getNumberOfShares();
+    Action getAction();
 }
