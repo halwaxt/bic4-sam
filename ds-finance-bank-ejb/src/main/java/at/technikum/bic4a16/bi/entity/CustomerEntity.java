@@ -1,13 +1,41 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package at.technikum.bic4a16.bi.entity;
 
 /**
- * @author Patrik
+ *
+ * @author Romeo
  */
-public class CustomerEntity {
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.OneToMany;
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.OneToOne;
+
+@Entity
+@Table(name="CUSTOMER")
+public class CustomerEntity implements Serializable{
+    @Id
+    private int id;
+    private String name;
+    
+    @OneToMany(mappedBy="customer")
+    private List<FinancialTransactionEntity> transactions;    
+    @OneToOne(mappedBy="customer")
+    private UserEntity User;
+    
+    
+    public int getId(){
+        return id;
+    }
+    public void setID(int id){
+        this.id = id;
+    }
+    public String getName(){
+        return name;
+    }
+    public void setName(String name){
+        this.name = name;
+    }
 }
