@@ -19,28 +19,28 @@ public class FinancialTransactionEntity implements Serializable{
     @Id
     @ManyToOne
     @JoinColumn(name="CUSTOMER_FK")
-    private int customer;
+    private CustomerEntity customer;
     @Id
     @ManyToOne
     @JoinColumn(name="COMPANY_FK")
-    private String symbol;
+    private CompanyEntity company;
     @Id
     private int timestamp;
     private long numberofshares;
     private String state;
     private BigDecimal amount;
       
-    public int getCustomer(){
+    public CustomerEntity getCustomer(){
         return customer;
     }
-    public void setCustomer(int customer){
+    public void setCustomer(CustomerEntity customer){
         this.customer = customer;
     }
-    public String getSymbol(){
-        return symbol;
+    public CompanyEntity getCompany(){
+        return company;
     }
-    public void setSymbol(String symbol){
-        this.symbol = symbol;
+    public void setCompany(CompanyEntity company){
+        this.company = company;
     } 
     public int getTimestamp(){
         return timestamp;

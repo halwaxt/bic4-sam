@@ -25,8 +25,7 @@ public class CompanyEntity implements Serializable{
     
     @OneToMany(mappedBy="company")
     private List<FinancialTransactionEntity> transactions;
-    
-    
+
     public String getSymbol(){
         return symbol;
     }
