@@ -1,29 +1,59 @@
 package at.technikum.bic4a16.bi.service;
 
-import at.technikum.bic4a16.bi.model.FinancialTransaction;
-import at.technikum.bic4a16.bi.model.FinancialTransactionRequest;
+import at.technikum.bic4a16.bi.model.*;
+
 import javax.annotation.Resource;
+import javax.ejb.EJB;
+import javax.ejb.Stateful;
 import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Default;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.io.Serializable;
+import java.util.logging.Logger;
 
-/**
- * Created by Thomas on 24.02.16.
- */
-
-@SessionScoped
+@Stateful
 @Default
-public final class DefaultFinancialService implements FinancialService, Serializable {
+public class DefaultFinancialService implements FinancialService {
 
-    @Resource
+
+    private Logger logger;
+
+    /*
+    @EJB
     private ManagedExecutorService managedExecutorService;
+*/
 
-    private final EntityManagerFactory factory;
+
+
+    @Override
+    public FinancialTransaction submitTransaction(FinancialTransactionRequest request) {
+        // persist transaction first
+        // using DAO
+
+
+
+        //
+        //managedExecutorService.execute(stockExchangeTransaction(null));
+
+
+        return null;
+    }
+
+    @Override
+    public FinancialTransactionRequest createRequest(Customer customer, Company company, long shares, Action action) {
+        DefaultFinancialTransactionRequest request = new DefaultFinancialTransactionRequest();
+        request.setCustomer(customer);
+        request.setCompany(company);
+        request.setNumberOfShares(shares);
+        request.setAction(action);
+        //logger.fine("created financial transaction request");
+        return request;
+    }
 
     private Runnable stockExchangeTransaction(FinancialTransaction transaction) {
         return new Runnable() {
@@ -35,23 +65,5 @@ public final class DefaultFinancialService implements FinancialService, Serializ
                 // update and persist bank balance
             }
         };
-    }
-
-    @Override
-    public FinancialTransaction executeTransaction(FinancialTransactionRequest request) {
-        // persist transaction first
-        final EntityManager entityManager = factory.createEntityManager();
-        final EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        {
-            entityManager.persist(request);
-        }
-        transaction.commit();
-
-        //
-        managedExecutorService.execute(stockExchangeTransaction(null));
-
-
-        return null;
     }
 }
