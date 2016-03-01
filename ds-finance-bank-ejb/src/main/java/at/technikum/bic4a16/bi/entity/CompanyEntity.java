@@ -8,18 +8,24 @@ package at.technikum.bic4a16.bi.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name="COMPANY")
 public class CompanyEntity implements Serializable{
     @Id
-    String symbol;
-    String name;
-    BigDecimal lasttradingprice;
-    long floatshares;
-    String stockexchange;
+    private String symbol;
+    private String name;
+    private BigDecimal lasttradingprice;
+    private long floatshares;
+    private String stockexchange;
+    
+    @OneToMany(mappedBy="company")
+    private List<FinancialTransactionEntity> transactions;
+    
     
     public String getSymbol(){
         return symbol;

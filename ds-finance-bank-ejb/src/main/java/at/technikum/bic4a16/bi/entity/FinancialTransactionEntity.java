@@ -8,6 +8,8 @@ package at.technikum.bic4a16.bi.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -15,14 +17,18 @@ import java.math.BigDecimal;
 @Table(name="TRANSACTION")
 public class FinancialTransactionEntity implements Serializable{
     @Id
-    int customer;
+    @ManyToOne
+    @JoinColumn(name="CUSTOMER_FK")
+    private int customer;
     @Id
-    String symbol;
+    @ManyToOne
+    @JoinColumn(name="COMPANY_FK")
+    private String symbol;
     @Id
-    int timestamp;
-    long numberofshares;
-    String state;
-    BigDecimal amount;
+    private int timestamp;
+    private long numberofshares;
+    private String state;
+    private BigDecimal amount;
       
     public int getCustomer(){
         return customer;

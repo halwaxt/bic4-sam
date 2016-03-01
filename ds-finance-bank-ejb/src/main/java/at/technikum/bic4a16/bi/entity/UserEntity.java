@@ -8,16 +8,22 @@ package at.technikum.bic4a16.bi.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
+import javax.persistence.JoinColumn;
+
 
 @Entity
 @Table(name="USER")
 public class UserEntity implements Serializable{
     @Id
-    String username;
-    int customer;
-    boolean employee;
-    char pwhash;
+    private String username;
+    @OneToOne
+    @JoinColumn(name="CUSTOMER_FK")
+    private int customer;
+    private boolean employee;
+    private char pwhash;
+    
     
     public String getUsername(){
         return username;
