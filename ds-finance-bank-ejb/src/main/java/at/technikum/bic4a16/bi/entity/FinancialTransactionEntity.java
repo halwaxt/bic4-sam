@@ -16,12 +16,13 @@ import javax.persistence.JoinColumn;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+@Entity
 @Table(name="TRANSACTION")
 public class FinancialTransactionEntity implements Serializable{
     @Id
     @ManyToOne
     @JoinColumn(name="CUSTOMER_FK")
-    private int customer;
+    private CustomerEntity customer;
     @Id
     @ManyToOne
     @JoinColumn(name="COMPANY_FK")
@@ -32,10 +33,10 @@ public class FinancialTransactionEntity implements Serializable{
     private String state;
     private BigDecimal amount;
       
-    public int getCustomer(){
+    public CustomerEntity getCustomer(){
         return customer;
     }
-    public void setCustomer(int customer){
+    public void setCustomer(CustomerEntity customer){
         this.customer = customer;
     }
     public CompanyEntity getSymbol(){

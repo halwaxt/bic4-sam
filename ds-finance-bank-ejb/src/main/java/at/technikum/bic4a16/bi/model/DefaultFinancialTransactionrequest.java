@@ -21,4 +21,11 @@ public class DefaultFinancialTransactionrequest implements FinancialTransactionR
     public long getNumberOfShares() {
         return 0;
     }
+
+
+	@Override
+	public Action getAction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
