@@ -8,12 +8,14 @@ package at.technikum.bic4a16.bi.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import at.technikum.bic4a16.bi.model.Company;
+
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-@Entity
 @Table(name="TRANSACTION")
 public class FinancialTransactionEntity implements Serializable{
     @Id
@@ -23,7 +25,7 @@ public class FinancialTransactionEntity implements Serializable{
     @Id
     @ManyToOne
     @JoinColumn(name="COMPANY_FK")
-    private String symbol;
+    private CompanyEntity company;
     @Id
     private int timestamp;
     private long numberofshares;
@@ -36,11 +38,11 @@ public class FinancialTransactionEntity implements Serializable{
     public void setCustomer(int customer){
         this.customer = customer;
     }
-    public String getSymbol(){
-        return symbol;
+    public CompanyEntity getSymbol(){
+        return company;
     }
-    public void setSymbol(String symbol){
-        this.symbol = symbol;
+    public void setSymbol(CompanyEntity symbol){
+        this.company = symbol;
     } 
     public int getTimestamp(){
         return timestamp;
