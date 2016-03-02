@@ -20,7 +20,8 @@ public class UserEntity implements Serializable{
     private String username;
     @OneToOne
 
-    @JoinColumn(name="CUSTOMER_FK")private CustomerEntity customer;
+    @JoinColumn(name="CUSTOMER_FK")
+    private CustomerEntity customer;
     private boolean employee;
     private char pwhash;
     
