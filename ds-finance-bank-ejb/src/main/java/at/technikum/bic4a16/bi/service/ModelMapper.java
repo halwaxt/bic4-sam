@@ -9,11 +9,13 @@ import at.technikum.bic4a16.bi.model.FinancialTransaction;
 
 public interface ModelMapper {
     // mapping for company
-    Company mapToCompany(CompanyEntity companyEntity);    
+    Company mapToCompany(CompanyEntity companyEntity);
+
     CompanyEntity mapFromCompany(Company company);
-    
+
     // mapping for customer
-    Customer mapToCustomer(CustomerEntity customerEntity);    
+    Customer mapToCustomer(CustomerEntity customerEntity);
+
     CustomerEntity mapFromCustomer(Customer customer);
 
     FinancialTransaction mapToFinancialTransaction(FinancialTransactionEntity financialTransactionEntity);

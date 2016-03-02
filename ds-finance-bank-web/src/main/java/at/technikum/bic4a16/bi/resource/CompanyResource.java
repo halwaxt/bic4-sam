@@ -10,7 +10,6 @@ import javax.ws.rs.Produces;
 import at.technikum.bic4a16.bi.model.Company;
 
 /**
- *
  * @author Patrik
  */
 

@@ -19,8 +19,9 @@ public class UserEntity implements Serializable{
     @Id
     private String username;
     @OneToOne
+
     @JoinColumn(name="CUSTOMER_FK")
-    private int customer;
+    private CustomerEntity customer;
     private boolean employee;
     private char pwhash;
     
@@ -31,10 +32,10 @@ public class UserEntity implements Serializable{
     public void setUsername(String username){
         this.username = username;
     }   
-    public int getCustomer(){
+    public CustomerEntity getCustomer(){
         return customer;
     }
-    public void setCustomer(int customer){
+    public void setCustomer(CustomerEntity customer){
         this.customer = customer;
     }
     public boolean getEmployee(){

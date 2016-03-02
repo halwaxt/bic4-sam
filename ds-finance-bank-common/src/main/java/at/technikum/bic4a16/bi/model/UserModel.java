@@ -6,7 +6,6 @@
 package at.technikum.bic4a16.bi.model;
 
 /**
- *
  * @author Patrik
  */
 public class UserModel implements User {
@@ -31,7 +30,7 @@ public class UserModel implements User {
     public Customer getCustomer() {
         return this.customer;
     }
-    
+
     public void setIsEmployee(Boolean isEmployee) {
         this.isEmployee = isEmployee;
     }
@@ -39,11 +38,11 @@ public class UserModel implements User {
     public boolean isEmployee() {
         return this.isEmployee;
     }
-    
-    public void setSessionId(String sessionId){
+
+    public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
-    
+
     public String getSessionId() {
         return this.sessionId;
     }

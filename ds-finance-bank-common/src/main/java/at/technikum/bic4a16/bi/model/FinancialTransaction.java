@@ -8,7 +8,10 @@ import java.util.UUID;
  */
 public interface FinancialTransaction {
     FinancialTransactionRequest getRequest();
+
     State getState();
+
     UUID getId();
+
     BigDecimal getAmount();
 }
