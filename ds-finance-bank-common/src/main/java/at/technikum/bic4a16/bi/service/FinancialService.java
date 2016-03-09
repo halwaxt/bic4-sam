@@ -6,7 +6,7 @@ import javax.ejb.Local;
 import javax.ejb.Remote;
 import java.util.UUID;
 
-@Local
+@Remote
 public interface FinancialService {
     FinancialTransaction submitTransaction(FinancialTransactionRequest request);
     FinancialTransactionRequest createRequest(Customer customer, Company company, long shares, Action action);
