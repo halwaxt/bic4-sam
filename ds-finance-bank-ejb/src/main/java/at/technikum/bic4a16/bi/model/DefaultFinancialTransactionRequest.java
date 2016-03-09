@@ -1,11 +1,11 @@
-package at.technikum.bic4a16.bi.service;
+package at.technikum.bic4a16.bi.model;
 
 import at.technikum.bic4a16.bi.model.Action;
 import at.technikum.bic4a16.bi.model.Company;
 import at.technikum.bic4a16.bi.model.Customer;
 import at.technikum.bic4a16.bi.model.FinancialTransactionRequest;
 
-class DefaultFinancialTransactionRequest implements FinancialTransactionRequest {
+public class DefaultFinancialTransactionRequest implements FinancialTransactionRequest {
 
     private Company company;
     private Customer customer;

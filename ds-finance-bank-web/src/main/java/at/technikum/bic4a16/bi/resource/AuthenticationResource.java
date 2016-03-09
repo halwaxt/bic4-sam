@@ -33,7 +33,7 @@ public class AuthenticationResource {
 
 	@Path("/")
 	@PUT
-	public void updateUser(@PathParam("user") User user) {
+	public void updateUser(@PathParam("username") String username) {
 		// Call updateUser method from AuthenticationService
 	}
 

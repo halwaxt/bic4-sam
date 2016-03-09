@@ -31,16 +31,19 @@ public class DefaultFinancialService implements FinancialService {
     public FinancialTransaction submitTransaction(FinancialTransactionRequest request) {
 
         LOG.debug("submitting a transaction fro request " + request);
+
+        DefaultFinancialTransaction financialTransaction = new DefaultFinancialTransaction();
+        financialTransaction.setRequest(request);
+        financialTransaction.setState(State.PENDING);
+
         // persist transaction first
         // using DAO
-
-
 
         //
         //managedExecutorService.execute(stockExchangeTransaction(null));
 
 
-        return null;
+        return financialTransaction;
     }
 
     @Override
