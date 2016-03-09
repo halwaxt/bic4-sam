@@ -7,7 +7,7 @@ import javax.ejb.Stateless;
 /**
  * Created by Thomas on 25.02.16.
  */
-@Stateless
+
 public interface AuthenticationService {
     // used to authenticate
     User authenticate(String username, String password);

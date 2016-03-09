@@ -7,7 +7,7 @@ import javax.ejb.Stateless;
 /**
  * Created by Thomas on 25.02.2016.
  */
-@Stateless
+
 public interface CompanyService {
     // get a company by its unique symbol
     Company getCompany(String symbol);

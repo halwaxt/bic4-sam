@@ -9,7 +9,7 @@ import javax.ejb.Stateless;
 /**
  * Created by Thomas on 25.02.16.
  */
-@Stateless
+
 public interface CustomerService {
     // get a customer by his unique id
     Customer getCustomer(int id);

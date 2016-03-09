@@ -1,37 +1,36 @@
 package at.technikum.bic4a16.bi.service;
 
 import at.technikum.bic4a16.bi.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
+import javax.ejb.LocalBean;
+import javax.ejb.Startup;
+import javax.ejb.Stateless;
 import javax.enterprise.concurrent.ManagedExecutorService;
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Default;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import java.io.Serializable;
-import java.util.logging.Logger;
 
-@Stateful
-@Default
+@Stateless
+@Startup
+@LocalBean
 public class DefaultFinancialService implements FinancialService {
 
 
-    private Logger logger;
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultFinancialService.class);
 
-    /*
-    @EJB
-    private ManagedExecutorService managedExecutorService;
-*/
+    @Resource
+    ManagedExecutorService managedExecutorService;
 
-
+    @PostConstruct
+    void initialize() {
+        LOG.debug("Hi, I am initialized :-)");
+    }
 
     @Override
     public FinancialTransaction submitTransaction(FinancialTransactionRequest request) {
+
+        LOG.debug("submitting a transaction fro request " + request);
         // persist transaction first
         // using DAO
 
@@ -59,6 +58,7 @@ public class DefaultFinancialService implements FinancialService {
         return new Runnable() {
             @Override
             public void run() {
+                // verify prerequisites
                 // call stock exchange and perform a buy or sell operation
                 // update and persist state
                 // update and persist portfolio
