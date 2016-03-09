@@ -8,6 +8,9 @@ package at.technikum.bic4a16.bi.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import at.technikum.bic4a16.bi.model.Company;
+
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import java.io.Serializable;
@@ -36,11 +39,11 @@ public class FinancialTransactionEntity implements Serializable{
     public void setCustomer(CustomerEntity customer){
         this.customer = customer;
     }
-    public CompanyEntity getCompany(){
+    public CompanyEntity getSymbol(){
         return company;
     }
-    public void setCompany(CompanyEntity company){
-        this.company = company;
+    public void setSymbol(CompanyEntity symbol){
+        this.company = symbol;
     } 
     public int getTimestamp(){
         return timestamp;
