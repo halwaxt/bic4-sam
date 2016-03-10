@@ -1,6 +1,7 @@
 .idea/
 *.iml
 */target/
+*/out/
 .project
 .settings/org.eclipse.m2e.core.prefs
 ds-finance-bank-client/.classpath
