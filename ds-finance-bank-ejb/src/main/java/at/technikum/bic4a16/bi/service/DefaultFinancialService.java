@@ -1,6 +1,10 @@
 package at.technikum.bic4a16.bi.service;
 
 import at.technikum.bic4a16.bi.model.*;
+import net.froihofer.dsfinance.ws.trading.PublicStockQuote;
+import net.froihofer.dsfinance.ws.trading.TradingClientFactory;
+import net.froihofer.dsfinance.ws.trading.TradingWSException_Exception;
+import net.froihofer.dsfinance.ws.trading.TradingWebService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,6 +12,8 @@ import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.enterprise.concurrent.ManagedExecutorService;
+import java.util.List;
+import java.util.function.Consumer;
 
 @Stateless
 @PermitAll
@@ -31,6 +37,20 @@ public class DefaultFinancialService implements FinancialService {
         financialTransaction.setRequest(request);
         financialTransaction.setState(State.PENDING);
 
+
+        final TradingWebService webService = TradingClientFactory.createClient();
+        try {
+            final List<PublicStockQuote> stockQuotesByCompanyName = webService.findStockQuotesByCompanyName("Apple");
+            stockQuotesByCompanyName.forEach(new Consumer<PublicStockQuote>() {
+                @Override
+                public void accept(PublicStockQuote publicStockQuote) {
+                    LOG.info("found stock " + publicStockQuote.getCompanyName());
+                }
+            });
+
+        } catch (TradingWSException_Exception e) {
+            LOG.error("failed to call findStockQuotesByCompanyName with param Apple", e);
+        }
         // persist transaction first
         // using DAO
 

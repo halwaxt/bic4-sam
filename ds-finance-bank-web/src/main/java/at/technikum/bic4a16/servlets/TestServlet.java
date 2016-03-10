@@ -127,5 +127,7 @@ public class TestServlet extends HttpServlet {
 
         writer.close();
 
+        financialService.submitTransaction(transactionRequest);
+
     }
 }

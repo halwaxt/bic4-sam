@@ -23,5 +23,6 @@
         <module>ds-finance-bank-web</module>
         <module>ds-finance-bank-ear</module>
         <module>ds-finance-bank-client</module>
+        <module>ds-finance-trading-ejb</module>
     </modules>
 </project>
