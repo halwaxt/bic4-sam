@@ -1,6 +1,8 @@
 package at.technikum.bic4a16.servlets;
 
 import at.technikum.bic4a16.bi.service.FinancialService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -15,6 +17,8 @@ import java.io.PrintWriter;
 @SessionScoped
 public class TestServlet extends HttpServlet {
 
+    private static final Logger LOG = LoggerFactory.getLogger(TestServlet.class);
+
     @EJB
     FinancialService financialService;
 
@@ -23,8 +27,10 @@ public class TestServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final PrintWriter writer = response.getWriter();
 
+        LOG.info("http GET method invoked");
+
+        final PrintWriter writer = response.getWriter();
 
         if (financialService == null) {
             writer.write("Kein Service injiziert");
