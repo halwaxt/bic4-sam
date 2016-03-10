@@ -10,4 +10,5 @@ import java.util.UUID;
 public interface FinancialService {
     FinancialTransaction submitTransaction(FinancialTransactionRequest request);
     FinancialTransactionRequest createRequest(Customer customer, Company company, long shares, Action action);
+    int getVersion();
 }

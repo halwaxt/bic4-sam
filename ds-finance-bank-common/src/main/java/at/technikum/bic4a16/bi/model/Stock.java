@@ -1,5 +1,6 @@
 package at.technikum.bic4a16.bi.model;
 
+import javax.ejb.Remote;
 import java.math.BigDecimal;
 
 /**
@@ -7,7 +8,7 @@ import java.math.BigDecimal;
  */
 
 /* this is a calculated object which will never be persisted */
-
+@Remote
 public interface Stock {
     // company which corresponds to the stock - e.g. object for company with symbol AAPL    
     Company getCompany();

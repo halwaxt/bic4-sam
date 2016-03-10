@@ -4,12 +4,14 @@ import at.technikum.bic4a16.bi.model.Customer;
 import at.technikum.bic4a16.bi.model.FinancialTransaction;
 import at.technikum.bic4a16.bi.model.Stock;
 
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 /**
  * Created by Thomas on 25.02.16.
  */
 
+@Remote
 public interface CustomerService {
     // get a customer by his unique id
     Customer getCustomer(int id);

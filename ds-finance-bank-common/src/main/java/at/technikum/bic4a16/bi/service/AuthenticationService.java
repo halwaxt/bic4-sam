@@ -2,12 +2,14 @@ package at.technikum.bic4a16.bi.service;
 
 import at.technikum.bic4a16.bi.model.User;
 
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 /**
  * Created by Thomas on 25.02.16.
  */
 
+@Remote
 public interface AuthenticationService {
     // used to authenticate
     User authenticate(String username, String password);

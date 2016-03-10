@@ -1,11 +1,15 @@
 package at.technikum.bic4a16.bi.model;
 
+import javax.ejb.Remote;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Created by Thomas on 24.02.16.
  */
-public interface Company {
+
+@Remote
+public interface Company extends Serializable{
     // name - e.g. APPLE INC
     String getName();
 

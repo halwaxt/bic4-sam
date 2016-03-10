@@ -6,14 +6,14 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
 import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import javax.ejb.Stateless;
 import javax.enterprise.concurrent.ManagedExecutorService;
 
 @Stateless
-@Startup
-@LocalBean
+@PermitAll
 public class DefaultFinancialService implements FinancialService {
 
 
@@ -26,6 +26,10 @@ public class DefaultFinancialService implements FinancialService {
     void initialize() {
         LOG.debug("Hi, I am initialized :-)");
     }
+
+
+    @Override
+    public int getVersion() { return 1;}
 
     @Override
     public FinancialTransaction submitTransaction(FinancialTransactionRequest request) {

@@ -1,5 +1,9 @@
 package at.technikum.bic4a16.servlets;
 
+import at.technikum.bic4a16.bi.model.Action;
+import at.technikum.bic4a16.bi.model.Company;
+import at.technikum.bic4a16.bi.model.Customer;
+import at.technikum.bic4a16.bi.model.FinancialTransactionRequest;
 import at.technikum.bic4a16.bi.service.FinancialService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 
 @SessionScoped
 public class TestServlet extends HttpServlet {
@@ -32,12 +37,81 @@ public class TestServlet extends HttpServlet {
 
         final PrintWriter writer = response.getWriter();
 
-        if (financialService == null) {
-            writer.write("Kein Service injiziert");
-        }
-        else {
-            writer.write("Sodalla, los gehts");
-        }
+
+        final FinancialTransactionRequest transactionRequest = financialService.createRequest(
+                new Customer() {
+                    @Override
+                    public int getId() {
+                        return 4711;
+                    }
+
+                    @Override
+                    public String getName() {
+                        return "Thomas";
+                    }
+                },
+                new Company() {
+                    @Override
+                    public String getName() {
+                        return "Apple Inc.";
+                    }
+
+                    @Override
+                    public void setName(String name) {
+
+                    }
+
+                    @Override
+                    public String getSymbol() {
+                        return "AAPL";
+                    }
+
+                    @Override
+                    public void setSymbol(String symbol) {
+
+                    }
+
+                    @Override
+                    public BigDecimal getLastTradingPrice() {
+                        return new BigDecimal(9887.123);
+                    }
+
+                    @Override
+                    public void setLastTradingPrice(BigDecimal lastTradingPrice) {
+
+                    }
+
+                    @Override
+                    public long getFloatShares() {
+                        return 39327892;
+                    }
+
+                    @Override
+                    public void setFloatShares(long floatShares) {
+
+                    }
+
+                    @Override
+                    public String getStockExchange() {
+                        return "NYSE";
+                    }
+
+                    @Override
+                    public void setStockExchange(String stockExchange) {
+
+                    }
+                },
+                7,
+                Action.BUY
+        );
+
+        writer.write(transactionRequest.toString());
+
+
+        //Integer version = financialService.getVersion();
+
+        //writer.write(version.toString());
+
 
 
         writer.close();

@@ -2,12 +2,14 @@ package at.technikum.bic4a16.bi.service;
 
 import at.technikum.bic4a16.bi.model.Company;
 
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 /**
  * Created by Thomas on 25.02.2016.
  */
 
+@Remote
 public interface CompanyService {
     // get a company by its unique symbol
     Company getCompany(String symbol);

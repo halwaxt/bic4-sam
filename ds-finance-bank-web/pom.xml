@@ -34,7 +34,7 @@
 		</dependency>
 		<dependency>
 			<groupId>net.froihofer</groupId>
-			<artifactId>ds-finance-bank-common</artifactId>
+			<artifactId>ds-finance-bank-ejb</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
