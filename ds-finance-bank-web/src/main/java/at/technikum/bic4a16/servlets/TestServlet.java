@@ -4,6 +4,9 @@ import at.technikum.bic4a16.bi.model.Action;
 import at.technikum.bic4a16.bi.model.Company;
 import at.technikum.bic4a16.bi.model.Customer;
 import at.technikum.bic4a16.bi.model.FinancialTransactionRequest;
+import at.technikum.bic4a16.bi.service.AuthenticationService;
+import at.technikum.bic4a16.bi.service.CompanyService;
+import at.technikum.bic4a16.bi.service.CustomerService;
 import at.technikum.bic4a16.bi.service.FinancialService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +30,16 @@ public class TestServlet extends HttpServlet {
     @EJB
     FinancialService financialService;
 
+    @EJB
+    AuthenticationService authenticationService;
+
+    @EJB
+    CustomerService customerService;
+
+    @EJB
+    CompanyService companyService;
+
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
@@ -34,6 +47,11 @@ public class TestServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         LOG.info("http GET method invoked");
+        LOG.info("checking injected interface implementations ...");
+        LOG.info("AuthenticationService: " + (authenticationService == null ? "ABSENT" : "PRESENT"));
+        LOG.info("CustomerService: " + (customerService == null ? "ABSENT" : "PRESENT"));
+        LOG.info("CompanyService: " + (companyService == null ? "ABSENT" : "PRESENT"));
+        LOG.info("FinancialService: " + (financialService == null ? "ABSENT" : "PRESENT"));
 
         final PrintWriter writer = response.getWriter();
 
@@ -106,13 +124,6 @@ public class TestServlet extends HttpServlet {
         );
 
         writer.write(transactionRequest.toString());
-
-
-        //Integer version = financialService.getVersion();
-
-        //writer.write(version.toString());
-
-
 
         writer.close();
 

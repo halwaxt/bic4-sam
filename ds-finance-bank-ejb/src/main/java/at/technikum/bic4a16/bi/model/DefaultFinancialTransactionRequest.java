@@ -14,22 +14,27 @@ public class DefaultFinancialTransactionRequest implements FinancialTransactionR
 
     @Override
     public Company getCompany() {
-        return null;
+        return this.company;
     }
 
     @Override
     public Customer getCustomer() {
-        return null;
+        return this.customer;
     }
 
     @Override
     public long getNumberOfShares() {
-        return 0;
+        return this.numberOfShares;
     }
 
     @Override
     public Action getAction() {
-        return null;
+        return this.action;
+    }
+
+    @Override
+    public String toString() {
+        return this.customer.getName() + " " + this.action + "s " + numberOfShares + " shares of " + company.getName();
     }
 
     public void setCompany(Company company) {

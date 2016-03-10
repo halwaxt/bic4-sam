@@ -4,11 +4,8 @@ import at.technikum.bic4a16.bi.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
-import javax.ejb.LocalBean;
-import javax.ejb.Startup;
 import javax.ejb.Stateless;
 import javax.enterprise.concurrent.ManagedExecutorService;
 
@@ -21,12 +18,6 @@ public class DefaultFinancialService implements FinancialService {
 
     @Resource
     ManagedExecutorService managedExecutorService;
-
-    @PostConstruct
-    void initialize() {
-        LOG.debug("Hi, I am initialized :-)");
-    }
-
 
     @Override
     public int getVersion() { return 1;}

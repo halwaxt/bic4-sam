@@ -1,4 +1,4 @@
-package at.technikum.bic4a16.bi.service;
+package at.technikum.bic4a16.bi.model;
 
 import at.technikum.bic4a16.bi.model.Customer;
 

@@ -1,4 +1,4 @@
-package at.technikum.bic4a16.bi.service;
+package at.technikum.bic4a16.bi.model;
 
 import at.technikum.bic4a16.bi.model.FinancialTransaction;
 import at.technikum.bic4a16.bi.model.FinancialTransactionRequest;
@@ -7,7 +7,7 @@ import at.technikum.bic4a16.bi.model.State;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-class DefaultFinancialTransaction implements FinancialTransaction{
+public class DefaultFinancialTransaction implements FinancialTransaction{
 
     private FinancialTransactionRequest request;
     private State state;

@@ -12,5 +12,5 @@ public enum State {
     APPROVED,
     DECLINED,
     FAILED,
-    COMPLETE
+    COMPLETED
 }
