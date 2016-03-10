@@ -1,5 +1,7 @@
 package at.technikum.bic4a16.bi.service;
 
+import at.technikum.bic4a16.bi.dao.CompanyEntityDAO;
+import at.technikum.bic4a16.bi.entity.CompanyEntity;
 import at.technikum.bic4a16.bi.model.*;
 import net.froihofer.dsfinance.ws.trading.PublicStockQuote;
 import net.froihofer.dsfinance.ws.trading.TradingClientFactory;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.concurrent.ManagedExecutorService;
 import java.util.List;
@@ -24,6 +27,10 @@ public class DefaultFinancialService implements FinancialService {
 
     @Resource
     ManagedExecutorService managedExecutorService;
+
+
+    @EJB
+    CompanyEntityDAO companyEntityDAO;
 
     @Override
     public int getVersion() { return 1;}
@@ -45,12 +52,35 @@ public class DefaultFinancialService implements FinancialService {
                 @Override
                 public void accept(PublicStockQuote publicStockQuote) {
                     LOG.info("found stock " + publicStockQuote.getCompanyName());
+
+                    CompanyEntity companyEntity;
+
+                    companyEntity = companyEntityDAO.findBySymbol(publicStockQuote.getSymbol());
+                    if (companyEntity == null) {
+                        companyEntity = new CompanyEntity();
+                        companyEntity.setName(publicStockQuote.getCompanyName());
+                        companyEntity.setLastTradingPrice(publicStockQuote.getLastTradePrice());
+                        companyEntity.setfloatShares(publicStockQuote.getFloatShares());
+                        companyEntity.setSymbol(publicStockQuote.getSymbol());
+                        companyEntity.setStockExchange(publicStockQuote.getStockExchange());
+
+                        companyEntityDAO.persist(companyEntity);
+                        LOG.info("create company entity: " + companyEntity.getName());
+                    }
+                    else {
+                        companyEntity.setLastTradingPrice(publicStockQuote.getLastTradePrice());
+                        companyEntity.setfloatShares(publicStockQuote.getFloatShares());
+                        companyEntityDAO.merge(companyEntity);
+                        LOG.info("updated company entity: " + companyEntity.getName());
+                    }
                 }
             });
 
         } catch (TradingWSException_Exception e) {
             LOG.error("failed to call findStockQuotesByCompanyName with param Apple", e);
         }
+
+
         // persist transaction first
         // using DAO
 
