@@ -21,9 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import com.google.gson.*;
+import java.util.*;
 
 @SessionScoped
-public class TestServlet extends HttpServlet {
+    public class TestServlet extends HttpServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(TestServlet.class);
 
@@ -53,81 +55,7 @@ public class TestServlet extends HttpServlet {
         LOG.info("CompanyService: " + (companyService == null ? "ABSENT" : "PRESENT"));
         LOG.info("FinancialService: " + (financialService == null ? "ABSENT" : "PRESENT"));
 
-        final PrintWriter writer = response.getWriter();
 
-
-        final FinancialTransactionRequest transactionRequest = financialService.createRequest(
-                new Customer() {
-                    @Override
-                    public int getId() {
-                        return 4711;
-                    }
-
-                    @Override
-                    public String getName() {
-                        return "Thomas";
-                    }
-                },
-                new Company() {
-                    @Override
-                    public String getName() {
-                        return "Apple Inc.";
-                    }
-
-                    @Override
-                    public void setName(String name) {
-
-                    }
-
-                    @Override
-                    public String getSymbol() {
-                        return "AAPL";
-                    }
-
-                    @Override
-                    public void setSymbol(String symbol) {
-
-                    }
-
-                    @Override
-                    public BigDecimal getLastTradingPrice() {
-                        return new BigDecimal(9887.123);
-                    }
-
-                    @Override
-                    public void setLastTradingPrice(BigDecimal lastTradingPrice) {
-
-                    }
-
-                    @Override
-                    public long getFloatShares() {
-                        return 39327892;
-                    }
-
-                    @Override
-                    public void setFloatShares(long floatShares) {
-
-                    }
-
-                    @Override
-                    public String getStockExchange() {
-                        return "NYSE";
-                    }
-
-                    @Override
-                    public void setStockExchange(String stockExchange) {
-
-                    }
-                },
-                7,
-                Action.BUY
-        );
-
-        writer.write(transactionRequest.toString());
-
-        writer.close();
-
-        financialService.submitTransaction(transactionRequest);
 
     }
 }

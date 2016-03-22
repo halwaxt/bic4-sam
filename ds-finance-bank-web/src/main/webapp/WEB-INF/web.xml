@@ -44,6 +44,15 @@
         <param-value>true</param-value>
     </context-param>
 
+    <filter>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>io.apiman.common.servlet.ApimanCorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 
     <!-- Faces Servlet -->
     <servlet>
@@ -57,16 +66,36 @@
         <servlet-class>at.technikum.bic4a16.servlets.TestServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>CompanyServlet</servlet-name>
+        <servlet-class>at.technikum.bic4a16.servlets.CompanyServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>FinancialTransactionServlet</servlet-name>
+        <servlet-class>at.technikum.bic4a16.servlets.FinancialTransactionServlet</servlet-class>
+    </servlet>
+
+
     <!-- Faces Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
-
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>
         <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CompanyServlet</servlet-name>
+        <url-pattern>/companies</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>FinancialTransactionServlet</servlet-name>
+        <url-pattern>/companies/*</url-pattern>
     </servlet-mapping>
 
     <!-- Welcome files -->
