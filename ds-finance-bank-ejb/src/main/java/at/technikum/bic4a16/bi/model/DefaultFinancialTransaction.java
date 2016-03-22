@@ -1,9 +1,5 @@
 package at.technikum.bic4a16.bi.model;
 
-import at.technikum.bic4a16.bi.model.FinancialTransaction;
-import at.technikum.bic4a16.bi.model.FinancialTransactionRequest;
-import at.technikum.bic4a16.bi.model.State;
-
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -12,7 +8,7 @@ public class DefaultFinancialTransaction implements FinancialTransaction{
     private FinancialTransactionRequest request;
     private State state;
     private UUID id;
-    private BigDecimal amount;
+    private Double price;
 
     @Override
     public FinancialTransactionRequest getRequest() {
@@ -30,8 +26,8 @@ public class DefaultFinancialTransaction implements FinancialTransaction{
     }
 
     @Override
-    public BigDecimal getAmount() {
-        return null;
+    public Double getPrice() {
+        return this.price;
     }
 
     public void setRequest(FinancialTransactionRequest request) {
@@ -46,7 +42,7 @@ public class DefaultFinancialTransaction implements FinancialTransaction{
         this.id = id;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

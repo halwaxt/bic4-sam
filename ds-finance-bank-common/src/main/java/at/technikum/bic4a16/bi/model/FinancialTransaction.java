@@ -2,7 +2,6 @@ package at.technikum.bic4a16.bi.model;
 
 import javax.ejb.Remote;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.UUID;
 
 /**
@@ -17,5 +16,5 @@ public interface FinancialTransaction extends Serializable {
 
     UUID getId();
 
-    BigDecimal getAmount();
+    Double getPrice();
 }
