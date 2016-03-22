@@ -1,5 +1,6 @@
 package at.technikum.bic4a16.bi.resource;
 
+import javax.ejb.EJB;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -9,6 +10,7 @@ import at.technikum.bic4a16.bi.model.Company;
 import at.technikum.bic4a16.bi.model.Customer;
 import at.technikum.bic4a16.bi.model.FinancialTransaction;
 import at.technikum.bic4a16.bi.model.FinancialTransactionRequest;
+import at.technikum.bic4a16.bi.service.FinancialService;
 
 /**
  * @author Thomas U.
@@ -16,6 +18,10 @@ import at.technikum.bic4a16.bi.model.FinancialTransactionRequest;
  */
 @Path("/financial")
 public class FinancialResource {
+
+	@EJB
+	FinancialService financialService;
+
 	@Path("/submit")
 	@POST
 	@Produces("application/json")

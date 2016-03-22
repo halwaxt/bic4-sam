@@ -48,45 +48,34 @@ public class DefaultFinancialService implements FinancialService {
         final TradingWebService webService = TradingClientFactory.createClient();
         try {
             final List<PublicStockQuote> stockQuotesByCompanyName = webService.findStockQuotesByCompanyName("Apple");
-            stockQuotesByCompanyName.forEach(new Consumer<PublicStockQuote>() {
-                @Override
-                public void accept(PublicStockQuote publicStockQuote) {
-                    LOG.info("found stock " + publicStockQuote.getCompanyName());
+            stockQuotesByCompanyName.forEach(publicStockQuote -> {
+                LOG.info("found stock " + publicStockQuote.getCompanyName());
 
-                    CompanyEntity companyEntity;
+                CompanyEntity companyEntity;
 
-                    companyEntity = companyEntityDAO.findBySymbol(publicStockQuote.getSymbol());
-                    if (companyEntity == null) {
-                        companyEntity = new CompanyEntity();
-                        companyEntity.setName(publicStockQuote.getCompanyName());
-                        companyEntity.setLastTradingPrice(publicStockQuote.getLastTradePrice());
-                        companyEntity.setfloatShares(publicStockQuote.getFloatShares());
-                        companyEntity.setSymbol(publicStockQuote.getSymbol());
-                        companyEntity.setStockExchange(publicStockQuote.getStockExchange());
+                companyEntity = companyEntityDAO.findBySymbol(publicStockQuote.getSymbol());
+                if (companyEntity == null) {
+                    companyEntity = new CompanyEntity();
+                    companyEntity.setName(publicStockQuote.getCompanyName());
+                    companyEntity.setLastTradingPrice(publicStockQuote.getLastTradePrice());
+                    companyEntity.setfloatShares(publicStockQuote.getFloatShares());
+                    companyEntity.setSymbol(publicStockQuote.getSymbol());
+                    companyEntity.setStockExchange(publicStockQuote.getStockExchange());
 
-                        companyEntityDAO.persist(companyEntity);
-                        LOG.info("create company entity: " + companyEntity.getName());
-                    }
-                    else {
-                        companyEntity.setLastTradingPrice(publicStockQuote.getLastTradePrice());
-                        companyEntity.setfloatShares(publicStockQuote.getFloatShares());
-                        companyEntityDAO.merge(companyEntity);
-                        LOG.info("updated company entity: " + companyEntity.getName());
-                    }
+                    companyEntityDAO.persist(companyEntity);
+                    LOG.info("create company entity: " + companyEntity.getName());
+                }
+                else {
+                    companyEntity.setLastTradingPrice(publicStockQuote.getLastTradePrice());
+                    companyEntity.setfloatShares(publicStockQuote.getFloatShares());
+                    companyEntityDAO.merge(companyEntity);
+                    LOG.info("updated company entity: " + companyEntity.getName());
                 }
             });
 
         } catch (TradingWSException_Exception e) {
             LOG.error("failed to call findStockQuotesByCompanyName with param Apple", e);
         }
-
-
-        // persist transaction first
-        // using DAO
-
-        //
-        //managedExecutorService.execute(stockExchangeTransaction(null));
-
 
         return financialTransaction;
     }
