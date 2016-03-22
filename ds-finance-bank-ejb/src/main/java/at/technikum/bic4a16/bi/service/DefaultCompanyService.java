@@ -17,8 +17,8 @@ public class DefaultCompanyService implements CompanyService{
     @EJB
     CompanyEntityDAO companyEntityDAO;
 
-    // @EJB
-    //DefaultModelMapper mm;
+    @EJB
+    ModelMapper mm;
 
     // get a company by its unique symbol
     @Override
@@ -31,8 +31,11 @@ public class DefaultCompanyService implements CompanyService{
     public Company[] getAllCompanies() {
         List<CompanyEntity> companyEntities = companyEntityDAO.findByName("%");
 
-        companyEntities.add(mm.toCompany(companyEntities.get(0)));
+        System.out.println("size=" + companyEntities.size());
 
-        return companyEntities;
+        Company[] companies = new Company[2];
+        companies[0] = mm.toCompany(companyEntities.get(0));
+
+        return companies;
     }
 }
