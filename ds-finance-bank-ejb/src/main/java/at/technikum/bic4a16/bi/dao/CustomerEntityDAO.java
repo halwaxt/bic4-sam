@@ -7,6 +7,8 @@ package at.technikum.bic4a16.bi.dao;
 
 import at.technikum.bic4a16.bi.entity.CustomerEntity;
 import java.util.List;
+import javax.annotation.security.PermitAll;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -14,6 +16,8 @@ import javax.persistence.PersistenceContext;
  *
  * @author Patrik
  */
+@Stateless
+@PermitAll
 public class CustomerEntityDAO {
     @PersistenceContext private EntityManager entityManager;
     

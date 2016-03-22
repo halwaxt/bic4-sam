@@ -2,9 +2,13 @@ package at.technikum.bic4a16.bi.dao;
 
 import at.technikum.bic4a16.bi.entity.UserEntity;
 import java.util.List;
+import javax.annotation.security.PermitAll;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+@Stateless
+@PermitAll
 public class UserEntityDAO {
     @PersistenceContext private EntityManager entityManager;
     
