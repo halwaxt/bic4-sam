@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.OneToMany;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.OneToOne;
@@ -17,6 +19,7 @@ import javax.persistence.OneToOne;
 @Table(name="CUSTOMER")
 public class CustomerEntity implements Serializable{
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     
