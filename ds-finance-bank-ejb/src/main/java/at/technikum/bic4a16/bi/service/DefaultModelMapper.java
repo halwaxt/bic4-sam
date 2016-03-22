@@ -8,9 +8,11 @@ import at.technikum.bic4a16.bi.model.CompanyModel;
 import at.technikum.bic4a16.bi.model.Customer;
 import at.technikum.bic4a16.bi.model.FinancialTransaction;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.Singleton;
 
 @Singleton
+@PermitAll
 public class DefaultModelMapper implements ModelMapper{
 
     @Override

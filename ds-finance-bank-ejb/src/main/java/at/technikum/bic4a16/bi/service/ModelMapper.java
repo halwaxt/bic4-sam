@@ -7,6 +7,9 @@ import at.technikum.bic4a16.bi.model.Company;
 import at.technikum.bic4a16.bi.model.Customer;
 import at.technikum.bic4a16.bi.model.FinancialTransaction;
 
+import javax.ejb.Remote;
+
+@Remote
 public interface ModelMapper {
     // mapping for company
     Company toCompany(CompanyEntity companyEntity);
