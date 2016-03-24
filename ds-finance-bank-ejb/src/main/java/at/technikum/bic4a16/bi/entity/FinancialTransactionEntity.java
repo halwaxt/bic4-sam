@@ -15,11 +15,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 @Entity
 @Table(name="TRANSACTION")
 public class FinancialTransactionEntity implements Serializable{
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int TransId;
     @ManyToOne
     @JoinColumn(name="CUSTOMER_FK")
     private CustomerEntity customer;
@@ -33,6 +37,12 @@ public class FinancialTransactionEntity implements Serializable{
     private String state;
     private BigDecimal amount;
       
+    public int getTransId(){
+        return TransId;
+    }
+    public void setCustomer(int TransId){
+        this.TransId = TransId;
+    }
     public CustomerEntity getCustomer(){
         return customer;
     }

@@ -12,15 +12,21 @@ import javax.persistence.PersistenceContext;
 public class FinancialTransactionDAO {
     @PersistenceContext private EntityManager entityManager;
     
+    public List<FinancialTransactionEntity> findByTransId(int TransId) {
+        return entityManager.createQuery("FROM FinancialTransactionEntity t"+
+                "WHERE t.TransId LIKE :partOfTransId ",
+                FinancialTransactionEntity.class).setParameter("partOfTransId", "%"+TransId+"%").
+                getResultList();
+    }
     public List<FinancialTransactionEntity> findByCustomer(int customer) {
-        return entityManager.createQuery("FROM Transaction t"+
+        return entityManager.createQuery("FROM FinancialTransactionEntity t"+
                 "WHERE t.customer LIKE :partOfCustomer ",
                 FinancialTransactionEntity.class).setParameter("partOfCustomer", "%"+customer+"%").
                 getResultList();
     }
     
     public List<FinancialTransactionEntity> findBySymbol(int symbol) {
-        return entityManager.createQuery("FROM Transaction t"+
+        return entityManager.createQuery("FROM FinancialTransactionEntity t"+
                 "WHERE t.symbol LIKE :partOfSymbol ",
                 FinancialTransactionEntity.class).setParameter("partOfSymbol", "%"+symbol+"%").
                 getResultList();
