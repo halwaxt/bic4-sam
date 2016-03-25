@@ -95,7 +95,8 @@ public class StockGrabbingService {
                         }
                         else {
                             companyEntity.setLastTradingPrice(quote.getLastTradePrice());
-                            companyEntity.setfloatShares(quote.getFloatShares());
+                            companyEntity.setfloatShares(
+                                    quote.getFloatShares() != null ? quote.getFloatShares() : -1);
                             companyEntityDAO.merge(companyEntity);
                             LOGGER.info("updated company entity: " + quote.getSymbol());
                         }

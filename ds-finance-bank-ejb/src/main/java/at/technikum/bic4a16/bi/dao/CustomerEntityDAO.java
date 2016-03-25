@@ -21,7 +21,7 @@ import javax.persistence.PersistenceContext;
 public class CustomerEntityDAO {
     @PersistenceContext private EntityManager entityManager;
     
-    public CustomerEntity findById(String id) {
+    public CustomerEntity findById(int id) {
         return entityManager.find(CustomerEntity.class, id);
     }
     

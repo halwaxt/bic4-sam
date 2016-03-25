@@ -1,9 +1,6 @@
 package at.technikum.bic4a16.servlets;
 
-import at.technikum.bic4a16.bi.model.Action;
-import at.technikum.bic4a16.bi.model.Company;
-import at.technikum.bic4a16.bi.model.Customer;
-import at.technikum.bic4a16.bi.model.FinancialTransactionRequest;
+import at.technikum.bic4a16.bi.model.*;
 import at.technikum.bic4a16.bi.service.AuthenticationService;
 import at.technikum.bic4a16.bi.service.CompanyService;
 import at.technikum.bic4a16.bi.service.CustomerService;
@@ -56,6 +53,12 @@ import java.util.*;
         LOG.info("FinancialService: " + (financialService == null ? "ABSENT" : "PRESENT"));
 
 
+        final Customer customer = customerService.createCustomer("HALWAX");
+        final Company apple = companyService.getCompany("AAPL");
+
+        final FinancialTransactionRequest buyAppleRequest = financialService.createRequest(customer, apple, 1, Action.BUY);
+        final FinancialTransaction financialTransaction = financialService.submitTransaction(buyAppleRequest);
+        LOG.info(financialTransaction.toString());
 
     }
 }

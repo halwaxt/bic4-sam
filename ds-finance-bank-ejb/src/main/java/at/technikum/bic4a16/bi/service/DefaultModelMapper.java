@@ -3,10 +3,8 @@ package at.technikum.bic4a16.bi.service;
 import at.technikum.bic4a16.bi.entity.CompanyEntity;
 import at.technikum.bic4a16.bi.entity.CustomerEntity;
 import at.technikum.bic4a16.bi.entity.FinancialTransactionEntity;
-import at.technikum.bic4a16.bi.model.Company;
-import at.technikum.bic4a16.bi.model.CompanyModel;
-import at.technikum.bic4a16.bi.model.Customer;
-import at.technikum.bic4a16.bi.model.FinancialTransaction;
+import at.technikum.bic4a16.bi.model.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.Singleton;
@@ -43,21 +41,27 @@ public class DefaultModelMapper implements ModelMapper{
 
     @Override
     public Customer toCustomer(CustomerEntity customerEntity) {
-        return null;
+        CustomerModel customer = new CustomerModel();
+        customer.setId(customerEntity.getId());
+        customer.setName(customerEntity.getName());
+        return customer;
     }
 
     @Override
     public CustomerEntity toCustomerEntity(Customer customer) {
-        return null;
+        CustomerEntity entity = new CustomerEntity();
+        entity.setName(customer.getName());
+        entity.setID(customer.getId());
+        return entity;
     }
 
     @Override
-    public FinancialTransaction toFinancialTransaction(FinancialTransactionEntity financialTransactionEntity) {
-        return null;
+    public FinancialTransaction toFinancialTransaction(FinancialTransactionEntity entity) {
+        throw new NotImplementedException();
     }
 
     @Override
     public FinancialTransactionEntity toFinancialTransactionEntity(FinancialTransaction financialTransaction) {
-        return null;
+        throw new NotImplementedException();
     }
 }

@@ -36,17 +36,16 @@ public class DefaultFinancialService implements FinancialService {
     @Override
     public FinancialTransaction submitTransaction(FinancialTransactionRequest request) {
 
-        LOG.debug("submitting a transaction for request " + request);
+
 
         DefaultFinancialTransaction financialTransaction = new DefaultFinancialTransaction();
         financialTransaction.setRequest(request);
         financialTransaction.setState(State.PENDING);
 
-
         financialTransactionDAO.persist(modelMapper.toFinancialTransactionEntity(financialTransaction));
 
         managedExecutorService.execute(stockExchangeTransaction(financialTransaction));
-
+        LOG.info("submitted a transaction for request " + request);
 
         return financialTransaction;
     }
@@ -69,30 +68,36 @@ public class DefaultFinancialService implements FinancialService {
 
                 try {
                     final TradingWebService tradingWebService = TradingClientFactory.createClient();
+                    double transactionPrice = 0;
                     switch (transaction.getRequest().getAction()) {
                         case SELL: {
                             LOG.info("selling ...");
-                            final double price = tradingWebService.sell(
+                            transactionPrice = tradingWebService.sell(
                                     transaction.getRequest().getCompany().getSymbol(),
                                     transaction.getRequest().getNumberOfShares()
                             );
-
-
-
-
-                            transaction.setState(State.COMPLETED);
-                            transaction.setPrice(price);
-
-
                             break;
                         }
                         case BUY: {
                             LOG.info("buying ...");
+                            LOG.info("selling ...");
+                            transactionPrice = tradingWebService.buy(
+                                    transaction.getRequest().getCompany().getSymbol(),
+                                    transaction.getRequest().getNumberOfShares()
+                            );
                             break;
                         }
                     }
+
+                    transaction.setState(State.COMPLETED);
+                    transaction.setPrice(transactionPrice);
+
                 } catch (TradingWSException_Exception e) {
-                    e.printStackTrace();
+                    transaction.setState(State.FAILED);
+                    LOG.error("failed to execute financial transaction.", e);
+                }
+                finally {
+                    LOG.info("persisting changed financial transaction");
                 }
 
 
