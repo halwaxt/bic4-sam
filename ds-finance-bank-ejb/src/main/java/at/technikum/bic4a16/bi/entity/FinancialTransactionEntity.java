@@ -40,15 +40,17 @@ public class FinancialTransactionEntity implements Serializable{
     public int getTransId(){
         return TransId;
     }
-    public void setCustomer(int TransId){
+    public void setTransId(int TransId){
         this.TransId = TransId;
     }
+
     public CustomerEntity getCustomer(){
         return customer;
     }
     public void setCustomer(CustomerEntity customer){
         this.customer = customer;
     }
+
     public CompanyEntity getSymbol(){
         return company;
     }
