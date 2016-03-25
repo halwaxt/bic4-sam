@@ -95,8 +95,9 @@ public class StockGrabbingService {
                         }
                         else {
                             companyEntity.setLastTradingPrice(quote.getLastTradePrice());
-                            companyEntity.setfloatShares(
-                                    quote.getFloatShares() != null ? quote.getFloatShares() : -1);
+                            if (quote.getFloatShares() != null) {
+                                companyEntity.setFloatShares(quote.getFloatShares());
+                            }
                             companyEntityDAO.merge(companyEntity);
                             LOGGER.info("updated company entity: " + quote.getSymbol());
                         }
@@ -114,9 +115,15 @@ public class StockGrabbingService {
         CompanyEntity companyEntity = new CompanyEntity();
         companyEntity.setName(quote.getCompanyName());
         companyEntity.setLastTradingPrice(quote.getLastTradePrice());
-        companyEntity.setfloatShares(quote.getFloatShares());
         companyEntity.setSymbol(quote.getSymbol());
-        companyEntity.setStockExchange(quote.getStockExchange());
+
+        if (quote.getFloatShares() != null) {
+            companyEntity.setFloatShares(quote.getFloatShares());
+        }
+
+        if (quote.getStockExchange() != null) {
+            companyEntity.setStockExchange(quote.getStockExchange());
+        }
         return companyEntity;
     }
 

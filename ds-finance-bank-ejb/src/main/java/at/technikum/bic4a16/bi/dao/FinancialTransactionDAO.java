@@ -12,10 +12,10 @@ import javax.persistence.PersistenceContext;
 public class FinancialTransactionDAO {
     @PersistenceContext private EntityManager entityManager;
     
-    public List<FinancialTransactionEntity> findByTransId(int TransId) {
+    public List<FinancialTransactionEntity> findById(int id) {
         return entityManager.createQuery("FROM FinancialTransactionEntity t"+
-                "WHERE t.TransId LIKE :partOfTransId ",
-                FinancialTransactionEntity.class).setParameter("partOfTransId", "%"+TransId+"%").
+                "WHERE t.id = :id ",
+                FinancialTransactionEntity.class).setParameter("id", "%"+id+"%").
                 getResultList();
     }
     public List<FinancialTransactionEntity> findByCustomer(int customer) {
@@ -32,8 +32,14 @@ public class FinancialTransactionDAO {
                 getResultList();
     }
     
-    public void persist(FinancialTransactionEntity transaction) {
+    public void save(FinancialTransactionEntity transaction) {
         entityManager.persist(transaction);
+    }
+
+
+    public void update(FinancialTransactionEntity financialTransactionEntity) {
+        final FinancialTransactionEntity merge = entityManager.merge(financialTransactionEntity);
+        entityManager.persist(merge);
     }
 
     public void delete(FinancialTransactionEntity transaction) {

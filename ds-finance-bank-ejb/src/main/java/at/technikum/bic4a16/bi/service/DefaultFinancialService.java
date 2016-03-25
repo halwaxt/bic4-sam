@@ -1,6 +1,9 @@
 package at.technikum.bic4a16.bi.service;
 
 import at.technikum.bic4a16.bi.dao.FinancialTransactionDAO;
+import at.technikum.bic4a16.bi.entity.CompanyEntity;
+import at.technikum.bic4a16.bi.entity.CustomerEntity;
+import at.technikum.bic4a16.bi.entity.FinancialTransactionEntity;
 import at.technikum.bic4a16.bi.model.*;
 import net.froihofer.dsfinance.ws.trading.TradingClientFactory;
 import net.froihofer.dsfinance.ws.trading.TradingWSException_Exception;
@@ -24,8 +27,6 @@ public class DefaultFinancialService implements FinancialService {
     @Resource
     ManagedExecutorService managedExecutorService;
 
-    @EJB
-    ModelMapper modelMapper;
 
     @EJB
     FinancialTransactionDAO financialTransactionDAO;
@@ -38,11 +39,15 @@ public class DefaultFinancialService implements FinancialService {
 
 
 
-        DefaultFinancialTransaction financialTransaction = new DefaultFinancialTransaction();
-        financialTransaction.setRequest(request);
+        FinancialTransactionEntity financialTransaction = new FinancialTransactionEntity();
+        financialTransaction.setCustomer((CustomerEntity)request.getCustomer());
+        financialTransaction.setCompany((CompanyEntity)request.getCompany());
+        financialTransaction.setAction(request.getAction());
+        financialTransaction.setNumberOfShares(request.getNumberOfShares());
         financialTransaction.setState(State.PENDING);
+        financialTransaction.setTimestamp(1);
 
-        financialTransactionDAO.persist(modelMapper.toFinancialTransactionEntity(financialTransaction));
+        financialTransactionDAO.save(financialTransaction);
 
         managedExecutorService.execute(stockExchangeTransaction(financialTransaction));
         LOG.info("submitted a transaction for request " + request);
@@ -60,7 +65,7 @@ public class DefaultFinancialService implements FinancialService {
         return request;
     }
 
-    private Runnable stockExchangeTransaction(DefaultFinancialTransaction transaction) {
+    private Runnable stockExchangeTransaction(FinancialTransactionEntity transaction) {
         return new Runnable() {
             @Override
             public void run() {
@@ -69,21 +74,20 @@ public class DefaultFinancialService implements FinancialService {
                 try {
                     final TradingWebService tradingWebService = TradingClientFactory.createClient();
                     double transactionPrice = 0;
-                    switch (transaction.getRequest().getAction()) {
+                    switch (transaction.getAction()) {
                         case SELL: {
                             LOG.info("selling ...");
                             transactionPrice = tradingWebService.sell(
-                                    transaction.getRequest().getCompany().getSymbol(),
-                                    transaction.getRequest().getNumberOfShares()
+                                    transaction.getCompany().getSymbol(),
+                                    transaction.getNumberOfShares()
                             );
                             break;
                         }
                         case BUY: {
                             LOG.info("buying ...");
-                            LOG.info("selling ...");
                             transactionPrice = tradingWebService.buy(
-                                    transaction.getRequest().getCompany().getSymbol(),
-                                    transaction.getRequest().getNumberOfShares()
+                                    transaction.getCompany().getSymbol(),
+                                    transaction.getNumberOfShares()
                             );
                             break;
                         }
@@ -98,6 +102,7 @@ public class DefaultFinancialService implements FinancialService {
                 }
                 finally {
                     LOG.info("persisting changed financial transaction");
+                    financialTransactionDAO.update(transaction);
                 }
 
 

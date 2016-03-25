@@ -3,7 +3,6 @@ package at.technikum.bic4a16.bi.service;
 import at.technikum.bic4a16.bi.dao.CustomerEntityDAO;
 import at.technikum.bic4a16.bi.entity.CustomerEntity;
 import at.technikum.bic4a16.bi.model.Customer;
-import at.technikum.bic4a16.bi.model.CustomerModel;
 import at.technikum.bic4a16.bi.model.FinancialTransaction;
 import at.technikum.bic4a16.bi.model.Stock;
 import org.slf4j.Logger;
@@ -24,13 +23,9 @@ public class DefaultCustomerService implements CustomerService {
     @EJB
     private CustomerEntityDAO customerEntityDAO;
 
-    @EJB
-    private ModelMapper modelMapper;
-
     @Override
     public Customer getCustomer(int id) {
-        final CustomerEntity customerEntity = customerEntityDAO.findById(id);
-        return customerEntity != null ? modelMapper.toCustomer(customerEntity) : null;
+        return customerEntityDAO.findById(id);
     }
 
     @Override
@@ -49,9 +44,10 @@ public class DefaultCustomerService implements CustomerService {
         CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setName(name);
 
+        customerEntityDAO.persist(customerEntity);
         LOGGER.info("persisted new customer. id is now: " + customerEntity.getId());
 
-        return modelMapper.toCustomer(customerEntity);
+        return customerEntity;
     }
 
     @Override
