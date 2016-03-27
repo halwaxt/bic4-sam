@@ -24,13 +24,10 @@ public class CompanyEntityDAO {
     
     public List<CompanyEntity> findByName(String name) {
 
-        return entityManager.createQuery("SELECT c FROM CompanyEntity c",
-                CompanyEntity.class).getResultList();
-
-        /* return entityManager.createQuery("SELECT c FROM COMPANY c "+
+        return entityManager.createQuery("SELECT c FROM CompanyEntity c "+
                 "WHERE c.name LIKE :partOfName ",
                 CompanyEntity.class).setParameter("partOfName", name).
-                getResultList(); */
+                getResultList();
     }
     
     public void persist(CompanyEntity entity) {

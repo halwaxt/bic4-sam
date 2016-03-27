@@ -33,8 +33,10 @@ public class DefaultCompanyService implements CompanyService{
 
         System.out.println("size=" + companyEntities.size());
 
-        Company[] companies = new Company[2];
-        companies[0] = mm.toCompany(companyEntities.get(0));
+        Company[] companies = new Company[companyEntities.size()];
+        for (int i = 0; i < companyEntities.size(); i++) {
+            companies[i] = mm.toCompany(companyEntities.get(i));
+        }
 
         return companies;
     }

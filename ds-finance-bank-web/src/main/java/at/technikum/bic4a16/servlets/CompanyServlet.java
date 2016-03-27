@@ -37,38 +37,27 @@ public class CompanyServlet extends HttpServlet {
 
         Company[] companies = companyService.getAllCompanies();
 
-        Company c = companies[0];
-
-        // System.out.println("NAME=" + companies[0].getName());
+        ArrayList<JsonObject> list = new ArrayList<JsonObject>();
 
         final PrintWriter writer = response.getWriter();
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        ArrayList<JsonObject> list = new ArrayList<JsonObject>();
+        JsonObject obj;
 
-        JsonObject obj = new JsonObject();
+        for(int i =0; i < companies.length; i++) {
+            obj = new JsonObject();
+            obj.addProperty("id", "100");
+            obj.addProperty("symbol", companies[i].getSymbol());
+            obj.addProperty("name", companies[i].getName());
+            obj.addProperty("lastTradingPrice", companies[i].getLastTradingPrice());
+            obj.addProperty("floatShares", companies[i].getFloatShares());
+            obj.addProperty("stockExchange", companies[i].getStockExchange());
 
-        obj.addProperty("id", "2001");
-        obj.addProperty("symbol", companies[0].getSymbol());
-        obj.addProperty("name", companies[0].getName());
-        obj.addProperty("lastTradingPrice", 50000);
-        obj.addProperty("floatShares", 500);
-        obj.addProperty("stockExchange", "NYSE");
+            list.add(obj);
 
-        list.add(obj);
-
-        obj = new JsonObject();
-
-        obj.addProperty("id", "2002");
-        obj.addProperty("symbol", "IBM");
-        obj.addProperty("name", "IBM");
-        obj.addProperty("lastTradingPrice", 40000);
-        obj.addProperty("floatShares", 1000);
-        obj.addProperty("stockExchange", "NYSE");
-
-        list.add(obj);
+        }
 
         out.print(list);
         out.flush();
