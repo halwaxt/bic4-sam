@@ -5,6 +5,8 @@ package at.technikum.bic4a16.bi.entity;
  * @author Romeo
  */
 
+import at.technikum.bic4a16.bi.model.Company;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,45 +17,67 @@ import java.util.List;
 
 @Entity
 @Table(name="COMPANY")
-public class CompanyEntity implements Serializable{
+public class CompanyEntity implements Company, Serializable{
     @Id
     private String symbol;
     private String name;
-    private BigDecimal lasttradingprice;
-    private long floatshares;
-    private String stockexchange;
+    private BigDecimal lastTradingPrice;
+    private long floatShares;
+    private String stockExchange;
     
     @OneToMany(mappedBy="company")
     private List<FinancialTransactionEntity> transactions;
 
-    public String getSymbol(){
-        return symbol;
+
+    @Override
+    public String getName() {
+        return this.name;
     }
-    public void setSymbol(String symbol){
-        this.symbol = symbol;
-    }
-    public String getName(){
-        return name;
-    }
-    public void setName(String name){
+
+    @Override
+    public void setName(String name) {
         this.name = name;
     }
-    public BigDecimal getLastTradingPrice(){
-        return lasttradingprice;
+
+    @Override
+    public String getSymbol() {
+        return this.symbol;
     }
-    public void setLastTradingPrice(BigDecimal lasttradingprice){
-        this.lasttradingprice = lasttradingprice;
+
+    @Override
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
-    public long getfloatShares(){
-        return floatshares;
+
+    @Override
+    public BigDecimal getLastTradingPrice() {
+        return this.lastTradingPrice;
     }
-    public void setfloatShares(long floatshares){
-        this.floatshares = floatshares;
-    }  
-    public String getStockExchange(){
-        return stockexchange;
+
+    @Override
+    public void setLastTradingPrice(BigDecimal lastTradingPrice) {
+        this.lastTradingPrice = lastTradingPrice;
     }
-    public void setStockExchange(String stockexchange){
-        this.stockexchange = stockexchange;
+
+    @Override
+    public long getFloatShares() {
+        return this.floatShares;
     }
+
+    @Override
+    public void setFloatShares(long floatShares) {
+        this.floatShares = floatShares;
+    }
+
+    @Override
+    public String getStockExchange() {
+        return this.stockExchange;
+    }
+
+    @Override
+    public void setStockExchange(String stockExchange) {
+        this.stockExchange = stockExchange;
+    }
+
+
 }

@@ -19,7 +19,6 @@ import javax.enterprise.concurrent.ManagedScheduledExecutorService;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 @Singleton
 @Startup
@@ -55,8 +54,13 @@ public class StockGrabbingService {
             return;
         }
 
-        scheduledFuture.cancel(true);
-        LOGGER.info("cancelled scheduled grabbing");
+        final boolean cancelled = scheduledFuture.cancel(true);
+        if (cancelled) {
+            LOGGER.info("cancelled scheduled grabbing.");
+        }
+        else {
+            LOGGER.warn("unable to cancel scheduled stock grabber.");
+        }
     }
 
 
@@ -91,7 +95,9 @@ public class StockGrabbingService {
                         }
                         else {
                             companyEntity.setLastTradingPrice(quote.getLastTradePrice());
-                            companyEntity.setfloatShares(quote.getFloatShares());
+                            if (quote.getFloatShares() != null) {
+                                companyEntity.setFloatShares(quote.getFloatShares());
+                            }
                             companyEntityDAO.merge(companyEntity);
                             LOGGER.info("updated company entity: " + quote.getSymbol());
                         }
@@ -109,9 +115,15 @@ public class StockGrabbingService {
         CompanyEntity companyEntity = new CompanyEntity();
         companyEntity.setName(quote.getCompanyName());
         companyEntity.setLastTradingPrice(quote.getLastTradePrice());
-        companyEntity.setfloatShares(quote.getFloatShares());
         companyEntity.setSymbol(quote.getSymbol());
-        companyEntity.setStockExchange(quote.getStockExchange());
+
+        if (quote.getFloatShares() != null) {
+            companyEntity.setFloatShares(quote.getFloatShares());
+        }
+
+        if (quote.getStockExchange() != null) {
+            companyEntity.setStockExchange(quote.getStockExchange());
+        }
         return companyEntity;
     }
 

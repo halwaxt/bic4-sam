@@ -21,12 +21,12 @@ import javax.persistence.PersistenceContext;
 public class CustomerEntityDAO {
     @PersistenceContext private EntityManager entityManager;
     
-    public CustomerEntity findById(String id) {
+    public CustomerEntity findById(int id) {
         return entityManager.find(CustomerEntity.class, id);
     }
     
     public List<CustomerEntity> findByName(String name) {
-        return entityManager.createQuery("FROM Company c"+
+        return entityManager.createQuery("FROM CustomerEntity c"+
                 "WHERE c.name LIKE :partOfName ",
                 CustomerEntity.class).setParameter("partOfName", "%"+name+"%").
                 getResultList();

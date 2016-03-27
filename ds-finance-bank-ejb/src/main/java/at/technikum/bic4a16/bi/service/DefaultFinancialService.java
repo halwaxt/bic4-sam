@@ -1,9 +1,10 @@
 package at.technikum.bic4a16.bi.service;
 
-import at.technikum.bic4a16.bi.dao.CompanyEntityDAO;
+import at.technikum.bic4a16.bi.dao.FinancialTransactionDAO;
 import at.technikum.bic4a16.bi.entity.CompanyEntity;
+import at.technikum.bic4a16.bi.entity.CustomerEntity;
+import at.technikum.bic4a16.bi.entity.FinancialTransactionEntity;
 import at.technikum.bic4a16.bi.model.*;
-import net.froihofer.dsfinance.ws.trading.PublicStockQuote;
 import net.froihofer.dsfinance.ws.trading.TradingClientFactory;
 import net.froihofer.dsfinance.ws.trading.TradingWSException_Exception;
 import net.froihofer.dsfinance.ws.trading.TradingWebService;
@@ -15,8 +16,6 @@ import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.concurrent.ManagedExecutorService;
-import java.util.List;
-import java.util.function.Consumer;
 
 @Stateless
 @PermitAll
@@ -30,7 +29,7 @@ public class DefaultFinancialService implements FinancialService {
 
 
     @EJB
-    CompanyEntityDAO companyEntityDAO;
+    FinancialTransactionDAO financialTransactionDAO;
 
     @Override
     public int getVersion() { return 1;}
@@ -38,68 +37,75 @@ public class DefaultFinancialService implements FinancialService {
     @Override
     public FinancialTransaction submitTransaction(FinancialTransactionRequest request) {
 
-        LOG.debug("submitting a transaction fro request " + request);
 
-        DefaultFinancialTransaction financialTransaction = new DefaultFinancialTransaction();
-        financialTransaction.setRequest(request);
+
+        FinancialTransactionEntity financialTransaction = new FinancialTransactionEntity();
+        financialTransaction.setCustomer((CustomerEntity)request.getCustomer());
+        financialTransaction.setCompany((CompanyEntity)request.getCompany());
+        financialTransaction.setAction(request.getAction());
+        financialTransaction.setNumberOfShares(request.getNumberOfShares());
         financialTransaction.setState(State.PENDING);
+        financialTransaction.setTimestamp(1);
 
+        financialTransactionDAO.save(financialTransaction);
 
-        final TradingWebService webService = TradingClientFactory.createClient();
-        try {
-            final List<PublicStockQuote> stockQuotesByCompanyName = webService.findStockQuotesByCompanyName("Apple");
-            stockQuotesByCompanyName.forEach(publicStockQuote -> {
-                LOG.info("found stock " + publicStockQuote.getCompanyName());
-
-                CompanyEntity companyEntity;
-
-                companyEntity = companyEntityDAO.findBySymbol(publicStockQuote.getSymbol());
-                if (companyEntity == null) {
-                    companyEntity = new CompanyEntity();
-                    companyEntity.setName(publicStockQuote.getCompanyName());
-                    companyEntity.setLastTradingPrice(publicStockQuote.getLastTradePrice());
-                    companyEntity.setfloatShares(publicStockQuote.getFloatShares());
-                    companyEntity.setSymbol(publicStockQuote.getSymbol());
-                    companyEntity.setStockExchange(publicStockQuote.getStockExchange());
-
-                    companyEntityDAO.persist(companyEntity);
-                    LOG.info("create company entity: " + companyEntity.getName());
-                }
-                else {
-                    companyEntity.setLastTradingPrice(publicStockQuote.getLastTradePrice());
-                    companyEntity.setfloatShares(publicStockQuote.getFloatShares());
-                    companyEntityDAO.merge(companyEntity);
-                    LOG.info("updated company entity: " + companyEntity.getName());
-                }
-            });
-
-        } catch (TradingWSException_Exception e) {
-            LOG.error("failed to call findStockQuotesByCompanyName with param Apple", e);
-        }
+        managedExecutorService.execute(stockExchangeTransaction(financialTransaction));
+        LOG.info("submitted a transaction for request " + request);
 
         return financialTransaction;
     }
 
     @Override
-    public FinancialTransactionRequest createRequest(Customer customer, Company company, long shares, Action action) {
+    public FinancialTransactionRequest createRequest(Customer customer, Company company, int shares, Action action) {
         DefaultFinancialTransactionRequest request = new DefaultFinancialTransactionRequest();
         request.setCustomer(customer);
         request.setCompany(company);
         request.setNumberOfShares(shares);
         request.setAction(action);
-        //logger.fine("created financial transaction request");
         return request;
     }
 
-    private Runnable stockExchangeTransaction(FinancialTransaction transaction) {
+    private Runnable stockExchangeTransaction(FinancialTransactionEntity transaction) {
         return new Runnable() {
             @Override
             public void run() {
-                // verify prerequisites
-                // call stock exchange and perform a buy or sell operation
-                // update and persist state
-                // update and persist portfolio
-                // update and persist bank balance
+                LOG.info("executing financial transaction ...");
+
+                try {
+                    final TradingWebService tradingWebService = TradingClientFactory.createClient();
+                    double transactionPrice = 0;
+                    switch (transaction.getAction()) {
+                        case SELL: {
+                            LOG.info("selling ...");
+                            transactionPrice = tradingWebService.sell(
+                                    transaction.getCompany().getSymbol(),
+                                    transaction.getNumberOfShares()
+                            );
+                            break;
+                        }
+                        case BUY: {
+                            LOG.info("buying ...");
+                            transactionPrice = tradingWebService.buy(
+                                    transaction.getCompany().getSymbol(),
+                                    transaction.getNumberOfShares()
+                            );
+                            break;
+                        }
+                    }
+
+                    transaction.setState(State.COMPLETED);
+                    transaction.setPrice(transactionPrice);
+
+                } catch (TradingWSException_Exception e) {
+                    transaction.setState(State.FAILED);
+                    LOG.error("failed to execute financial transaction.", e);
+                }
+                finally {
+                    LOG.info("persisting changed financial transaction");
+                    financialTransactionDAO.update(transaction);
+                }
+
+
             }
         };
     }

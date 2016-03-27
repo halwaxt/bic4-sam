@@ -1,42 +1,62 @@
 package at.technikum.bic4a16.bi.service;
 
+import at.technikum.bic4a16.bi.dao.CustomerEntityDAO;
+import at.technikum.bic4a16.bi.entity.CustomerEntity;
 import at.technikum.bic4a16.bi.model.Customer;
 import at.technikum.bic4a16.bi.model.FinancialTransaction;
 import at.technikum.bic4a16.bi.model.Stock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.annotation.security.PermitAll;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
+
 
 @Stateless
 @PermitAll
-public class DefaultCustomerService implements CustomerService{
+public class DefaultCustomerService implements CustomerService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCustomerService.class);
+
+    @EJB
+    private CustomerEntityDAO customerEntityDAO;
+
     @Override
     public Customer getCustomer(int id) {
-        return null;
+        return customerEntityDAO.findById(id);
     }
 
     @Override
     public Customer getCustomer(String name) {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public Customer[] getAllCustomers() {
-        return new Customer[0];
+        throw new NotImplementedException();
     }
 
     @Override
     public Customer createCustomer(String name) {
-        return null;
+
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setName(name);
+
+        customerEntityDAO.persist(customerEntity);
+        LOGGER.info("persisted new customer. id is now: " + customerEntity.getId());
+
+        return customerEntity;
     }
 
     @Override
     public FinancialTransaction[] getTransactions(Customer customer) {
-        return new FinancialTransaction[0];
+        throw new NotImplementedException();
     }
 
     @Override
     public Stock[] getPortfolio(Customer customer) {
-        return new Stock[0];
+        throw new NotImplementedException();
     }
 }

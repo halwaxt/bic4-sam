@@ -8,6 +8,7 @@ import at.technikum.bic4a16.bi.service.AuthenticationService;
 import at.technikum.bic4a16.bi.service.CompanyService;
 import at.technikum.bic4a16.bi.service.CustomerService;
 import at.technikum.bic4a16.bi.service.FinancialService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,30 +38,14 @@ public class CompanyServlet extends HttpServlet {
 
         Company[] companies = companyService.getAllCompanies();
 
-        ArrayList<JsonObject> list = new ArrayList<JsonObject>();
-
-        final PrintWriter writer = response.getWriter();
-
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        JsonObject obj;
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.writeValue(out, companies);
 
-        for(int i =0; i < companies.length; i++) {
-            obj = new JsonObject();
-            obj.addProperty("id", "100");
-            obj.addProperty("symbol", companies[i].getSymbol());
-            obj.addProperty("name", companies[i].getName());
-            obj.addProperty("lastTradingPrice", companies[i].getLastTradingPrice());
-            obj.addProperty("floatShares", companies[i].getFloatShares());
-            obj.addProperty("stockExchange", companies[i].getStockExchange());
-
-            list.add(obj);
-
-        }
-
-        out.print(list);
         out.flush();
+        out.close();
 
     }
 }

@@ -5,6 +5,8 @@ package at.technikum.bic4a16.bi.entity;
  * @author Romeo
  */
 
+import at.technikum.bic4a16.bi.model.Customer;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -17,7 +19,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Table(name="CUSTOMER")
-public class CustomerEntity implements Serializable{
+public class CustomerEntity implements Customer, Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;

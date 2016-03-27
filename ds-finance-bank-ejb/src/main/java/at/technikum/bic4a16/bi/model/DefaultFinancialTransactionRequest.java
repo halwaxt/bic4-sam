@@ -1,15 +1,10 @@
 package at.technikum.bic4a16.bi.model;
 
-import at.technikum.bic4a16.bi.model.Action;
-import at.technikum.bic4a16.bi.model.Company;
-import at.technikum.bic4a16.bi.model.Customer;
-import at.technikum.bic4a16.bi.model.FinancialTransactionRequest;
-
 public class DefaultFinancialTransactionRequest implements FinancialTransactionRequest {
 
     private Company company;
     private Customer customer;
-    private long numberOfShares;
+    private int numberOfShares;
     private Action action;
 
     @Override
@@ -23,7 +18,7 @@ public class DefaultFinancialTransactionRequest implements FinancialTransactionR
     }
 
     @Override
-    public long getNumberOfShares() {
+    public int getNumberOfShares() {
         return this.numberOfShares;
     }
 
@@ -45,7 +40,7 @@ public class DefaultFinancialTransactionRequest implements FinancialTransactionR
         this.customer = customer;
     }
 
-    public void setNumberOfShares(long numberOfShares) {
+    public void setNumberOfShares(int numberOfShares) {
         this.numberOfShares = numberOfShares;
     }
 

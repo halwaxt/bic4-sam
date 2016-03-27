@@ -13,6 +13,6 @@ public interface FinancialTransactionRequest extends Serializable{
 
     Customer getCustomer();
 
-    long getNumberOfShares();
+    int getNumberOfShares();
     Action getAction();
 }
