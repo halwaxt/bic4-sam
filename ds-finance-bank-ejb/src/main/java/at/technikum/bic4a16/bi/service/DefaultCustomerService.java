@@ -65,6 +65,7 @@ public class DefaultCustomerService implements CustomerService {
 
     @Override
     public Stock[] getPortfolio(Customer customer) {
-        return financialTransactionDAO.getPortfolio((CustomerEntity)customer);
+        final List<Stock> portfolio = financialTransactionDAO.getPortfolio((CustomerEntity) customer);
+        return portfolio.toArray(new Stock[portfolio.size()]);
     }
 }

@@ -46,11 +46,6 @@ import java.util.*;
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         LOG.info("http GET method invoked");
-        LOG.info("checking injected interface implementations ...");
-        LOG.info("AuthenticationService: " + (authenticationService == null ? "ABSENT" : "PRESENT"));
-        LOG.info("CustomerService: " + (customerService == null ? "ABSENT" : "PRESENT"));
-        LOG.info("CompanyService: " + (companyService == null ? "ABSENT" : "PRESENT"));
-        LOG.info("FinancialService: " + (financialService == null ? "ABSENT" : "PRESENT"));
 
         Customer customer;
         final Customer[] halwaxes = customerService.getCustomer("HALWAX");
@@ -66,6 +61,7 @@ import java.util.*;
         final Company adobe = companyService.getCompany("ADBE");
         final Company extremeNetworks = companyService.getCompany("EXTR");
 
+        /*
         final FinancialTransactionRequest buyAppleRequest = financialService.createRequest(customer, apple, 7, Action.BUY);
         final FinancialTransaction buyAppleTransaction = financialService.submitTransaction(buyAppleRequest);
 
@@ -74,13 +70,13 @@ import java.util.*;
 
         final FinancialTransactionRequest buyAdobeRequest = financialService.createRequest(customer, adobe, 10, Action.BUY);
         final FinancialTransaction buyAdobeT = financialService.submitTransaction(buyAdobeRequest);
-
+*/
         final FinancialTransactionRequest sellAdobeRequest = financialService.createRequest(customer, adobe, 10, Action.SELL);
         final FinancialTransaction financialTransaction = financialService.submitTransaction(sellAdobeRequest);
-
+/*
         final FinancialTransactionRequest buyExtremeRequest = financialService.createRequest(customer, extremeNetworks, 12, Action.BUY);
         final FinancialTransaction buyExtremeT = financialService.submitTransaction(buyExtremeRequest);
-
+*/
 
         final Stock[] portfolio = customerService.getPortfolio(customer);
         LOG.info("customer owns stocks: " + portfolio.length);

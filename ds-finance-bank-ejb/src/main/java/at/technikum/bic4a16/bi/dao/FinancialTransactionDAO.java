@@ -50,7 +50,7 @@ public class FinancialTransactionDAO {
     }
 
 
-    public Stock[] getPortfolio(CustomerEntity customer) {
+    public List<Stock> getPortfolio(CustomerEntity customer) {
         String nativeQuery =
         "SELECT rownum() as IDENTITY , * FROM (SELECT COMPANY_FK, -1* sum(actionvalue * numberofshares) as SHARES FROM TRANSACTION " +
         "WHERE customer_FK = :customer_id and state='COMPLETED' " +
@@ -59,7 +59,6 @@ public class FinancialTransactionDAO {
 
         final Query query = entityManager.createNativeQuery(nativeQuery, StockEntity.class);
         query.setParameter("customer_id", customer.getId());
-        final List<StockEntity> resultList = query.getResultList();
-        return resultList.toArray(new Stock[resultList.size()]);
+        return query.getResultList();
     }
 }
