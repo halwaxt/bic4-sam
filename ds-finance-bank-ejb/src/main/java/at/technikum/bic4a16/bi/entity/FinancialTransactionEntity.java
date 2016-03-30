@@ -5,17 +5,11 @@ package at.technikum.bic4a16.bi.entity;
  * @author Romeo
  */
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import at.technikum.bic4a16.bi.model.*;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
 import java.io.Serializable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 
 @Entity
 @Table(name="TRANSACTION")
@@ -35,9 +29,13 @@ public class FinancialTransactionEntity implements FinancialTransaction, Seriali
 
     private int timestamp;
     private int numberOfShares;
+
+    @Enumerated(EnumType.STRING)
     private State state;
+    
     private double price;
-    private Action action;
+
+    private int actionValue;
 
     public int getId(){
         return id;
@@ -82,11 +80,12 @@ public class FinancialTransactionEntity implements FinancialTransaction, Seriali
 
     @Override
     public Action getAction() {
-        return this.action;
+        return Action.parse(this.actionValue);
+
     }
 
     public void setAction(Action action) {
-        this.action = action;
+        this.actionValue = action.getActionValue();
     }
 
     public State getState(){
