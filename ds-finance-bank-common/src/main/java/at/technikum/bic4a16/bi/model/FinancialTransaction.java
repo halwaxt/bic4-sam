@@ -15,4 +15,5 @@ public interface FinancialTransaction extends Serializable {
     Action getAction();
     int getId();
     double getPrice();
+    String getMessage();
 }

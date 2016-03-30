@@ -36,8 +36,9 @@ public class FinancialTransactionEntity implements FinancialTransaction, Seriali
     private State state;
     
     private double price;
-
     private int actionValue;
+
+    private String message;
 
     public int getId(){
         return id;
@@ -63,14 +64,6 @@ public class FinancialTransactionEntity implements FinancialTransaction, Seriali
         this.customer = customer;
     }
 
-
-    public LocalDateTime getDate(){
-        return date;
-    }
-    public void setDate(LocalDateTime date){
-        this.date = date;
-    }
-
     @Override
     public int getNumberOfShares(){
         return numberOfShares;
@@ -85,13 +78,18 @@ public class FinancialTransactionEntity implements FinancialTransaction, Seriali
         return Action.parse(this.actionValue);
     }
 
+    @Override
+    public String getMessage() { return this.message; }
+    public void setMessage(String message) { this.message = message; }
+
     public void setAction(Action action) {
         this.actionValue = action.getActionValue();
     }
 
-    public State getState(){
-        return state;
-    }
+    public LocalDateTime getDate(){ return date; }
+    public void setDate(LocalDateTime date){ this.date = date; }
+
+    public State getState(){ return state; }
     public void setState(State state){
         this.state = state;
     }
