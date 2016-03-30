@@ -22,6 +22,5 @@ public enum Action {
             case -1 : return BUY;
             default: throw new RuntimeException("Action value not defined: " + actionValue);
         }
-
     }
 }

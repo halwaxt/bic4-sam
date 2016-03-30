@@ -16,6 +16,7 @@ import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.concurrent.ManagedExecutorService;
+import java.time.LocalDateTime;
 
 @Stateless
 @PermitAll
@@ -36,22 +37,10 @@ public class DefaultFinancialService implements FinancialService {
 
     @Override
     public FinancialTransaction submitTransaction(FinancialTransactionRequest request) {
-
-
-
-        FinancialTransactionEntity financialTransaction = new FinancialTransactionEntity();
-        financialTransaction.setCustomer((CustomerEntity)request.getCustomer());
-        financialTransaction.setCompany((CompanyEntity)request.getCompany());
-        financialTransaction.setAction(request.getAction());
-        financialTransaction.setNumberOfShares(request.getNumberOfShares());
-        financialTransaction.setState(State.PENDING);
-        financialTransaction.setTimestamp(1);
-
+        FinancialTransactionEntity financialTransaction = toFinancialTransactionEntity(request);
         financialTransactionDAO.save(financialTransaction);
-
         managedExecutorService.execute(stockExchangeTransaction(financialTransaction));
         LOG.info("submitted a transaction for request " + request);
-
         return financialTransaction;
     }
 
@@ -63,6 +52,17 @@ public class DefaultFinancialService implements FinancialService {
         request.setNumberOfShares(shares);
         request.setAction(action);
         return request;
+    }
+
+    private FinancialTransactionEntity toFinancialTransactionEntity(FinancialTransactionRequest request) {
+        FinancialTransactionEntity financialTransaction = new FinancialTransactionEntity();
+        financialTransaction.setCustomer((CustomerEntity)request.getCustomer());
+        financialTransaction.setCompany((CompanyEntity)request.getCompany());
+        financialTransaction.setAction(request.getAction());
+        financialTransaction.setNumberOfShares(request.getNumberOfShares());
+        financialTransaction.setState(State.PENDING);
+        financialTransaction.setDate(LocalDateTime.now());
+        return financialTransaction;
     }
 
     private Runnable stockExchangeTransaction(FinancialTransactionEntity transaction) {
@@ -92,7 +92,6 @@ public class DefaultFinancialService implements FinancialService {
                             break;
                         }
                     }
-
                     transaction.setState(State.COMPLETED);
                     transaction.setPrice(transactionPrice);
 
@@ -104,8 +103,6 @@ public class DefaultFinancialService implements FinancialService {
                     LOG.info("persisting changed financial transaction");
                     financialTransactionDAO.update(transaction);
                 }
-
-
             }
         };
     }

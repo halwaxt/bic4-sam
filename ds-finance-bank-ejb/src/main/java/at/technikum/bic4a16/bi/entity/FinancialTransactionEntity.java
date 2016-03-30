@@ -10,6 +10,8 @@ import javax.persistence.*;
 import at.technikum.bic4a16.bi.model.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name="TRANSACTION")
@@ -27,7 +29,7 @@ public class FinancialTransactionEntity implements FinancialTransaction, Seriali
     @JoinColumn(name="COMPANY_FK")
     private CompanyEntity company;
 
-    private int timestamp;
+    private LocalDateTime date;
     private int numberOfShares;
 
     @Enumerated(EnumType.STRING)
@@ -62,11 +64,11 @@ public class FinancialTransactionEntity implements FinancialTransaction, Seriali
     }
 
 
-    public int getTimestamp(){
-        return timestamp;
+    public LocalDateTime getDate(){
+        return date;
     }
-    public void setTimestamp(int timestamp){
-        this.timestamp = timestamp;
+    public void setDate(LocalDateTime date){
+        this.date = date;
     }
 
     @Override
@@ -81,7 +83,6 @@ public class FinancialTransactionEntity implements FinancialTransaction, Seriali
     @Override
     public Action getAction() {
         return Action.parse(this.actionValue);
-
     }
 
     public void setAction(Action action) {
