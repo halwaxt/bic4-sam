@@ -24,10 +24,6 @@ public class CompanyEntity implements Company, Serializable{
     private BigDecimal lastTradingPrice;
     private long floatShares;
     private String stockExchange;
-    
-    @OneToMany(mappedBy="company")
-    private List<FinancialTransactionEntity> transactions;
-
 
     @Override
     public String getName() {

@@ -22,12 +22,10 @@ import java.time.LocalDateTime;
 @PermitAll
 public class DefaultFinancialService implements FinancialService {
 
-
     private static final Logger LOG = LoggerFactory.getLogger(DefaultFinancialService.class);
 
     @Resource
     ManagedExecutorService managedExecutorService;
-
 
     @EJB
     FinancialTransactionDAO financialTransactionDAO;
@@ -37,7 +35,7 @@ public class DefaultFinancialService implements FinancialService {
 
     @Override
     public FinancialTransaction submitTransaction(FinancialTransactionRequest request) {
-        FinancialTransactionEntity financialTransaction = toFinancialTransactionEntity(request);
+        FinancialTransactionEntity financialTransaction = toPendingFinancialTransactionEntity(request);
         financialTransactionDAO.save(financialTransaction);
         managedExecutorService.execute(stockExchangeTransaction(financialTransaction));
         LOG.info("submitted a transaction for request " + request);
@@ -54,7 +52,7 @@ public class DefaultFinancialService implements FinancialService {
         return request;
     }
 
-    private FinancialTransactionEntity toFinancialTransactionEntity(FinancialTransactionRequest request) {
+    private FinancialTransactionEntity toPendingFinancialTransactionEntity(FinancialTransactionRequest request) {
         FinancialTransactionEntity financialTransaction = new FinancialTransactionEntity();
         financialTransaction.setCustomer((CustomerEntity)request.getCustomer());
         financialTransaction.setCompany((CompanyEntity)request.getCompany());
