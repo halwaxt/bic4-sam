@@ -18,13 +18,14 @@ public class FinancialTransactionDAO {
                 FinancialTransactionEntity.class).setParameter("id", "%"+id+"%").
                 getResultList();
     }
+    /* TODO: remove like */
     public List<FinancialTransactionEntity> findByCustomer(int customer) {
         return entityManager.createQuery("FROM FinancialTransactionEntity t"+
                 "WHERE t.customer LIKE :partOfCustomer ",
                 FinancialTransactionEntity.class).setParameter("partOfCustomer", "%"+customer+"%").
                 getResultList();
     }
-    
+    /* TODO: remove like */
     public List<FinancialTransactionEntity> findBySymbol(int symbol) {
         return entityManager.createQuery("FROM FinancialTransactionEntity t"+
                 "WHERE t.symbol LIKE :partOfSymbol ",

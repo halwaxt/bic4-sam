@@ -67,13 +67,14 @@ public class StockGrabbingService {
     private Runnable grabAllStocks() {
         return new Runnable() {
 
-            final TradingWebService webService = TradingClientFactory.createClient();
+
 
             @Override
             public void run() {
                 List<PublicStockQuote> stockQuotes;
 
                 try {
+                    final TradingWebService webService = TradingClientFactory.createClient();
                     stockQuotes = webService.findStockQuotesByCompanyName("%");
                     LOGGER.info("found stocks: " + stockQuotes.size());
                 }
