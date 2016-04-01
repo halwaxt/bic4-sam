@@ -1,5 +1,6 @@
 package at.technikum.bic4a16.servlets;
 
+import at.technikum.bic4a16.bi.model.Action;
 import at.technikum.bic4a16.bi.service.CompanyService;
 import at.technikum.bic4a16.bi.service.FinancialService;
 import com.google.gson.JsonObject;
@@ -28,8 +29,22 @@ public class FinancialTransactionServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        System.out.println("Action=" + request.getParameter("action"));
-        System.out.println("Numbers=" + request.getParameter("numbers"));
+        LOG.info("Action=" + request.getParameter("action"));
+        LOG.info("Numbers=" + request.getParameter("numbers"));
+        LOG.info("Symbol=" + request.getParameter("symbol"));
+
+        String actionString = request.getParameter("action");
+        Action action;
+        int shares = Integer.parseInt("numbers");
+
+        if(actionString.equals("BUY")) {
+            action = Action.BUY;
+        }
+        else {
+            action = Action.SELL;
+        }
+
+        // financialService.createRequest(customer, company, shares, action);
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();

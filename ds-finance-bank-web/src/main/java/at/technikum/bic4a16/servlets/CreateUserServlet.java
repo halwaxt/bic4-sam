@@ -22,8 +22,8 @@ import java.io.PrintWriter;
 public class CreateUserServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(CreateUserServlet.class);
 
-    @EJB
-    UserService userService;
+    // @EJB
+    // UserService userService;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

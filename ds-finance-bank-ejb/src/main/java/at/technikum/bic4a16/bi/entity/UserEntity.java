@@ -40,7 +40,7 @@ public class UserEntity implements User, Serializable {
     }
 
     public void setCustomer(Customer customer) {
-        this.customer = (Customer) customer;
+        // this.customer = (Customer) customer;
     }
 
     public boolean getEmployee() {
