@@ -1,13 +1,14 @@
 package at.technikum.bic4a16.bi.model;
 
 import javax.ejb.Remote;
+import java.io.Serializable;
 
 /**
  * Created by Thomas on 25.02.16.
  */
 
 @Remote
-public interface User {
+public interface User extends Serializable {
     // username - e.g. jordan.belfort
     String getUsername();
 
@@ -19,9 +20,9 @@ public interface User {
     void setCustomer(Customer customer);
 
     // defines if the user is an employee or not - e.g. true
-    boolean isEmployee();
+    boolean getEmployee();
 
-    void setIsEmployee(Boolean isEmployee);
+    void setEmployee(boolean isEmployee);
 
     // sessionId, which has to be transmitted to authenticate - e.g. $2a$05$Lhay
     String getSessionId();

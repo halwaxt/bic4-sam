@@ -1,7 +1,6 @@
 package at.technikum.bic4a16.bi.entity;
 
 /**
- *
  * @author Romeo
  */
 
@@ -12,43 +11,58 @@ import javax.persistence.OneToOne;
 import java.io.Serializable;
 import javax.persistence.JoinColumn;
 
+import at.technikum.bic4a16.bi.model.User;
+import at.technikum.bic4a16.bi.model.Customer;
 
 @Entity
-@Table(name="USER")
-public class UserEntity implements Serializable{
+@Table(name = "USER")
+public class UserEntity implements User, Serializable {
     @Id
     private String username;
     @OneToOne
 
-    @JoinColumn(name="CUSTOMER_FK")
+    @JoinColumn(name = "CUSTOMER_FK")
     private CustomerEntity customer;
     private boolean employee;
-    private char pwhash;
-    
-    
-    public String getUsername(){
+    private String pwhash;
+
+
+    public String getUsername() {
         return username;
     }
-    public void setUsername(String username){
+
+    public void setUsername(String username) {
         this.username = username;
-    }   
-    public CustomerEntity getCustomer(){
+    }
+
+    public Customer getCustomer() {
         return customer;
     }
-    public void setCustomer(CustomerEntity customer){
-        this.customer = customer;
+
+    public void setCustomer(Customer customer) {
+        this.customer = (Customer) customer;
     }
-    public boolean getEmployee(){
+
+    public boolean getEmployee() {
         return employee;
     }
-    public void setEmployee(boolean employee){
+
+    public void setEmployee(boolean employee) {
         this.employee = employee;
     }
-    public char getPwhash(){
+
+    public String getPwhash() {
         return pwhash;
     }
-    public void setÜwhash(char pwhash){
+
+    public void setPwhash(String pwhash) {
         this.pwhash = pwhash;
     }
 
+    public String getSessionId() {
+        return "";
+    }
+
+    public void setSessionId(String sessionId) {
+    }
 }
