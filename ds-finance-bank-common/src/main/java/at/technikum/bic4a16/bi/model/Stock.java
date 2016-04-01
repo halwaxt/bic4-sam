@@ -14,7 +14,7 @@ public interface Stock {
     Company getCompany();
 
     // number of shares - e.g. 100
-    long getNumberOfShares();
+    int getNumberOfShares();
 
     // current value of the shares - e.g. 500 (numberOfShares * company.getLastTradingPrice())
     BigDecimal getCurrentValue();

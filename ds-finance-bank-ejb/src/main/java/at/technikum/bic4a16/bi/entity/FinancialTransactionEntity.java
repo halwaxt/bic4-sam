@@ -5,17 +5,13 @@ package at.technikum.bic4a16.bi.entity;
  * @author Romeo
  */
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import at.technikum.bic4a16.bi.model.*;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
 import java.io.Serializable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name="TRANSACTION")
@@ -33,11 +29,16 @@ public class FinancialTransactionEntity implements FinancialTransaction, Seriali
     @JoinColumn(name="COMPANY_FK")
     private CompanyEntity company;
 
-    private int timestamp;
+    private LocalDateTime date;
     private int numberOfShares;
+
+    @Enumerated(EnumType.STRING)
     private State state;
+    
     private double price;
-    private Action action;
+    private int actionValue;
+
+    private String message;
 
     public int getId(){
         return id;
@@ -63,14 +64,6 @@ public class FinancialTransactionEntity implements FinancialTransaction, Seriali
         this.customer = customer;
     }
 
-
-    public int getTimestamp(){
-        return timestamp;
-    }
-    public void setTimestamp(int timestamp){
-        this.timestamp = timestamp;
-    }
-
     @Override
     public int getNumberOfShares(){
         return numberOfShares;
@@ -82,16 +75,21 @@ public class FinancialTransactionEntity implements FinancialTransaction, Seriali
 
     @Override
     public Action getAction() {
-        return this.action;
+        return Action.parse(this.actionValue);
     }
+
+    @Override
+    public String getMessage() { return this.message; }
+    public void setMessage(String message) { this.message = message; }
 
     public void setAction(Action action) {
-        this.action = action;
+        this.actionValue = action.getActionValue();
     }
 
-    public State getState(){
-        return state;
-    }
+    public LocalDateTime getDate(){ return date; }
+    public void setDate(LocalDateTime date){ this.date = date; }
+
+    public State getState(){ return state; }
     public void setState(State state){
         this.state = state;
     }

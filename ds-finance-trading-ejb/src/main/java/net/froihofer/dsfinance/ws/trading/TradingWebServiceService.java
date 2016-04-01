@@ -14,24 +14,16 @@ import javax.xml.ws.Service;
  * Generated source version: 3.0.5
  * 
  */
-@WebServiceClient(name = "TradingWebServiceService", 
-                  wsdlLocation = "http://edu.dedisys.org/ds-finance/ws/TradingService?wsdl",
-                  targetNamespace = "http://trading.ws.dsfinance.froihofer.net/") 
+@WebServiceClient(name = "TradingWebServiceService", targetNamespace = "http://trading.ws.dsfinance.froihofer.net/")
 public class TradingWebServiceService extends Service {
 
     public final static URL WSDL_LOCATION;
 
     public final static QName SERVICE = new QName("http://trading.ws.dsfinance.froihofer.net/", "TradingWebServiceService");
     public final static QName TradingWebServicePort = new QName("http://trading.ws.dsfinance.froihofer.net/", "TradingWebServicePort");
+
     static {
-        URL url = null;
-        try {
-            url = new URL("http://edu.dedisys.org/ds-finance/ws/TradingService?wsdl");
-        } catch (MalformedURLException e) {
-            java.util.logging.Logger.getLogger(TradingWebServiceService.class.getName())
-                .log(java.util.logging.Level.INFO, 
-                     "Can not initialize the default wsdl from {0}", "http://edu.dedisys.org/ds-finance/ws/TradingService?wsdl");
-        }
+        URL url = TradingWebService.class.getResource("TradingService.xml");
         WSDL_LOCATION = url;
     }
 

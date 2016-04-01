@@ -13,7 +13,7 @@ public interface FinancialTransaction extends Serializable {
     Customer getCustomer();
     int getNumberOfShares();
     Action getAction();
-    State getState();
     int getId();
     double getPrice();
+    String getMessage();
 }

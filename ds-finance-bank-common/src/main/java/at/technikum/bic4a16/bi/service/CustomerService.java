@@ -16,8 +16,8 @@ public interface CustomerService {
     // get a customer by his unique id
     Customer getCustomer(int id);
 
-    // get a customer by his name (which is also unique)
-    Customer getCustomer(String name);
+    // get a customer by name
+    Customer[] getCustomer(String name);
 
     // get all customers
     Customer[] getAllCustomers();
