@@ -23,13 +23,13 @@ public class DefaultCustomerService implements CustomerService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCustomerService.class);
 
     @EJB
-    private CustomerEntityDAO customerEntityDAO;
+    CustomerEntityDAO customerEntityDAO;
 
     @EJB
-    private FinancialTransactionDAO financialTransactionDAO;
+    FinancialTransactionDAO financialTransactionDAO;
 
     @Override
-    public Customer getCustomer(int id) {
+    public Customer getCustomer(Integer id) {
         return customerEntityDAO.get(id);
     }
 

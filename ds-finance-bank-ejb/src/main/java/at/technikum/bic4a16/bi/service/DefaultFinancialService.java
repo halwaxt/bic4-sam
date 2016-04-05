@@ -17,6 +17,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.concurrent.ManagedExecutorService;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Stateless
 @PermitAll
@@ -70,7 +71,7 @@ public class DefaultFinancialService implements FinancialService {
         financialTransaction.setAction(request.getAction());
         financialTransaction.setNumberOfShares(request.getNumberOfShares());
         financialTransaction.setState(State.PENDING);
-        financialTransaction.setDate(LocalDateTime.now());
+        // financialTransaction.setDate(LocalDateTime.now());
         return financialTransaction;
     }
 

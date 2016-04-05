@@ -14,7 +14,7 @@ import javax.ejb.Stateless;
 @Remote
 public interface CustomerService {
     // get a customer by his unique id
-    Customer getCustomer(int id);
+    Customer getCustomer(Integer id);
 
     // get a customer by name
     Customer[] getCustomer(String name);

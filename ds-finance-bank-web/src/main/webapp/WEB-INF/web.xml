@@ -95,7 +95,7 @@
 
     <servlet-mapping>
         <servlet-name>FinancialTransactionServlet</servlet-name>
-        <url-pattern>/companies/*</url-pattern>
+        <url-pattern>/transaction</url-pattern>
     </servlet-mapping>
 
     <!-- Welcome files -->

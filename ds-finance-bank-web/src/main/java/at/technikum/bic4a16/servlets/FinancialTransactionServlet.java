@@ -1,8 +1,10 @@
 package at.technikum.bic4a16.servlets;
 
-import at.technikum.bic4a16.bi.model.Action;
+import at.technikum.bic4a16.bi.model.*;
 import at.technikum.bic4a16.bi.service.CompanyService;
+import at.technikum.bic4a16.bi.service.CustomerService;
 import at.technikum.bic4a16.bi.service.FinancialService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,12 @@ public class FinancialTransactionServlet extends HttpServlet {
     @EJB
     FinancialService financialService;
 
+    @EJB
+    CustomerService customerService;
+
+    @EJB
+    CompanyService companyService;
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         LOG.info("Action=" + request.getParameter("action"));
@@ -35,7 +43,8 @@ public class FinancialTransactionServlet extends HttpServlet {
 
         String actionString = request.getParameter("action");
         Action action;
-        int shares = Integer.parseInt("numbers");
+        String symbol = request.getParameter("symbol");
+        int shares = Integer.parseInt(request.getParameter("numbers"));
 
         if(actionString.equals("BUY")) {
             action = Action.BUY;
@@ -44,15 +53,22 @@ public class FinancialTransactionServlet extends HttpServlet {
             action = Action.SELL;
         }
 
-        // financialService.createRequest(customer, company, shares, action);
+        Customer customer = customerService.getCustomer(37);
+        Company company = companyService.getCompany(symbol);
+        FinancialTransactionRequest financialTransactionRequest = financialService.createRequest(customer, company, shares, action);
+        FinancialTransaction financialTransaction = financialService.submitTransaction(financialTransactionRequest);
+
+        LOG.info("HIER!!!");
+        LOG.info("id=" + financialTransaction.getId());
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        JsonObject obj = new JsonObject();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.writeValue(out, financialTransaction);
 
-        out.print(obj);
         out.flush();
+        out.close();
 
     }
 }
