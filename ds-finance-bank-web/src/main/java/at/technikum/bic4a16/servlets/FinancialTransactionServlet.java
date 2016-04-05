@@ -58,9 +58,6 @@ public class FinancialTransactionServlet extends HttpServlet {
         FinancialTransactionRequest financialTransactionRequest = financialService.createRequest(customer, company, shares, action);
         FinancialTransaction financialTransaction = financialService.submitTransaction(financialTransactionRequest);
 
-        LOG.info("HIER!!!");
-        LOG.info("id=" + financialTransaction.getId());
-
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
