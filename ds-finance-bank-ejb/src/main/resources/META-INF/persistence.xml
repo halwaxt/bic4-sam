@@ -7,7 +7,8 @@
         <jta-data-source>java:/datasources/DsFinanceBankDS</jta-data-source>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
-            <property name="hibernate.hbm2ddl.auto" value="create-update"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="javax.persistence.lock.timeout" value="5000"/>
         </properties>
     </persistence-unit>
 </persistence>
