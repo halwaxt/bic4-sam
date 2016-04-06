@@ -10,7 +10,10 @@ import at.technikum.bic4a16.bi.model.State;
 import at.technikum.bic4a16.bi.model.Stock;
 import at.technikum.bic4a16.bi.service.TransactionValidationRegistry;
 import at.technikum.bic4a16.bi.service.ValidationTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -22,12 +25,14 @@ import java.util.Optional;
 @Singleton
 @Startup
 public class StockOwnerValidator implements ValidationTask {
+    private static final Logger LOG = LoggerFactory.getLogger(StockOwnerValidator.class);
 
     @EJB
     FinancialTransactionDAO financialTransactionDAO;
 
     @Inject
     public StockOwnerValidator(TransactionValidationRegistry validationRegistry) {
+        LOG.info("registering at " + validationRegistry.toString());
         validationRegistry.register(this);
     }
 
