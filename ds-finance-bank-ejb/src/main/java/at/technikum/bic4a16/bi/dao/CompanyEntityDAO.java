@@ -6,6 +6,7 @@ package at.technikum.bic4a16.bi.dao;
  */
 
 import at.technikum.bic4a16.bi.entity.CompanyEntity;
+import at.technikum.bic4a16.bi.model.Company;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -64,7 +65,9 @@ public class CompanyEntityDAO {
     }
 
     private <T extends CompanyEntity> T persistOrMerge(T t) {
-        if (t.getSymbol() == null) {
+
+        final CompanyEntity entity = entityManager.find(CompanyEntity.class, t.getSymbol());
+        if (entity == null) {
             entityManager.persist(t);
             return t;
         } else {
