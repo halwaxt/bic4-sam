@@ -23,8 +23,8 @@ import javax.persistence.PersistenceContext;
 public class CustomerEntityDAO {
     @PersistenceContext private EntityManager entityManager;
     
-    public CustomerEntity get(int id) {
-        return entityManager.find(CustomerEntity.class, id);
+    public CustomerEntity get(Integer id) {
+        return entityManager.find(CustomerEntity.class, 1);
     }
 
     public List<CustomerEntity> getAll() {
@@ -34,7 +34,7 @@ public class CustomerEntityDAO {
     public List<CustomerEntity> findByName(String name) {
         return entityManager.createQuery("FROM CustomerEntity c "+
                 "WHERE c.name LIKE :partOfName ",
-                CustomerEntity.class).setParameter("partOfName", name+"%").
+                CustomerEntity.class).setParameter("partOfName", name).
                 getResultList();
     }
     

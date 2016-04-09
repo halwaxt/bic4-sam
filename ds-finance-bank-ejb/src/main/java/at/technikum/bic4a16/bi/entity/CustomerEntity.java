@@ -43,4 +43,8 @@ public class CustomerEntity implements Customer, Serializable{
     public void setName(String name){
         this.name = name;
     }
+
+    public String toString() {
+        return "name=" + name;
+    }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -41,6 +42,8 @@ public class FinancialTransactionDAO {
     }
 
     public void update(FinancialTransactionEntity financialTransactionEntity) {
+        // TODO:  find correct way to lock  //
+
         final FinancialTransactionEntity merge = entityManager.merge(financialTransactionEntity);
         entityManager.persist(merge);
     }

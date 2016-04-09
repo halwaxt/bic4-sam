@@ -9,6 +9,7 @@
         <param-value>2</param-value>
     </context-param>
     <!-- Optional JSF-RI Parameters to Help Debug -->
+    <!--
     <context-param>
         <param-name>com.sun.faces.validateXml</param-name>
         <param-value>true</param-value>
@@ -21,7 +22,7 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
-
+    -->
     <!--======================================================================
       Main configuration
     ==========================================================================-->
@@ -55,11 +56,13 @@
 
 
     <!-- Faces Servlet -->
+    <!--
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    -->
 
     <servlet>
         <servlet-name>TestServlet</servlet-name>
@@ -89,11 +92,12 @@
 
 
     <!-- Faces Servlet Mapping -->
+    <!--
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
-
+    -->
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -106,7 +110,7 @@
 
     <servlet-mapping>
         <servlet-name>FinancialTransactionServlet</servlet-name>
-        <url-pattern>/companies/*</url-pattern>
+        <url-pattern>/transaction</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

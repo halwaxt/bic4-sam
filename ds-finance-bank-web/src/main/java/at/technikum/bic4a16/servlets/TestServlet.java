@@ -68,13 +68,13 @@ import java.util.*;
 
         final FinancialTransactionRequest sellAppleRequest = financialService.createRequest(customer, apple, 5, Action.SELL);
         final FinancialTransaction sellAppleT = financialService.submitTransaction(sellAppleRequest);
-
+        */
         final FinancialTransactionRequest buyAdobeRequest = financialService.createRequest(customer, adobe, 10, Action.BUY);
         final FinancialTransaction buyAdobeT = financialService.submitTransaction(buyAdobeRequest);
-*/
+/*
         final FinancialTransactionRequest sellAdobeRequest = financialService.createRequest(customer, adobe, 10, Action.SELL);
         final FinancialTransaction financialTransaction = financialService.submitTransaction(sellAdobeRequest);
-/*
+
         final FinancialTransactionRequest buyExtremeRequest = financialService.createRequest(customer, extremeNetworks, 12, Action.BUY);
         final FinancialTransaction buyExtremeT = financialService.submitTransaction(buyExtremeRequest);
 */

@@ -16,6 +16,8 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.enterprise.concurrent.ManagedScheduledExecutorService;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +32,7 @@ public class StockGrabbingService {
     @EJB
     CompanyEntityDAO companyEntityDAO;
 
+    @SuppressWarnings("EjbEnvironmentInspection")
     @Resource
     ManagedScheduledExecutorService scheduledExecutorService;
 
@@ -66,9 +69,6 @@ public class StockGrabbingService {
 
     private Runnable grabAllStocks() {
         return new Runnable() {
-
-
-
             @Override
             public void run() {
                 List<PublicStockQuote> stockQuotes;
@@ -83,36 +83,21 @@ public class StockGrabbingService {
                     return;
                 }
 
-                CompanyEntity companyEntity;
+                List<CompanyEntity> entities = new ArrayList<>();
                 for (PublicStockQuote quote : stockQuotes) {
                     if (quote.getCompanyName().startsWith("N/A")) continue;
                     if (quote.getCompanyName().startsWith("** SEE")) continue;
 
-                    companyEntity = companyEntityDAO.findBySymbol(quote.getSymbol());
-                    try {
-                        if (companyEntity == null) {
-                            companyEntityDAO.persist(insertableEntity(quote));
-                            LOGGER.info("created company entity: " + quote.getSymbol());
-                        }
-                        else {
-                            companyEntity.setLastTradingPrice(quote.getLastTradePrice());
-                            if (quote.getFloatShares() != null) {
-                                companyEntity.setFloatShares(quote.getFloatShares());
-                            }
-                            companyEntityDAO.merge(companyEntity);
-                            LOGGER.info("updated company entity: " + quote.getSymbol());
-                        }
-                    }
-                    catch (Exception ex) {
-                        LOGGER.error("error: ", ex.getMessage());
-                    }
+                    entities.add(toCompanyEntity(quote));
                 }
+
+                LOGGER.info("saved companies: " + companyEntityDAO.bulkSave(entities).size());
             }
         };
     }
 
 
-    private CompanyEntity insertableEntity(PublicStockQuote quote) {
+    private CompanyEntity toCompanyEntity(PublicStockQuote quote) {
         CompanyEntity companyEntity = new CompanyEntity();
         companyEntity.setName(quote.getCompanyName());
         companyEntity.setLastTradingPrice(quote.getLastTradePrice());

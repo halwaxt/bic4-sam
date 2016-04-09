@@ -29,7 +29,7 @@ public class FinancialTransactionEntity implements FinancialTransaction, Seriali
     @JoinColumn(name="COMPANY_FK")
     private CompanyEntity company;
 
-    private LocalDateTime date;
+   // private LocalDateTime date;
     private int numberOfShares;
 
     @Enumerated(EnumType.STRING)
@@ -86,8 +86,8 @@ public class FinancialTransactionEntity implements FinancialTransaction, Seriali
         this.actionValue = action.getActionValue();
     }
 
-    public LocalDateTime getDate(){ return date; }
-    public void setDate(LocalDateTime date){ this.date = date; }
+    //public LocalDateTime getDate(){ return date; }
+    //public void setDate(LocalDateTime date){ this.date = date; }
 
     public State getState(){ return state; }
     public void setState(State state){
