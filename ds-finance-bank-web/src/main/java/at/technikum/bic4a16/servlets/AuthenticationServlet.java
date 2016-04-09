@@ -29,8 +29,14 @@ public class AuthenticationServlet extends HttpServlet {
     AuthenticationService authenticationService;
     @EJB
     CustomerService customerService;
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    }
+
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -46,23 +52,28 @@ public class AuthenticationServlet extends HttpServlet {
         try{
 
 
-           if( authenticationService.authenticate(n,p)!=null){
-               User user = authenticationService.authenticate(n,p);
-               HttpSession session=request.getSession();
-               String sessionId=session.getId();
-               user.setSessionId(sessionId);
+            if( authenticationService.authenticate(n,p)!=null){
+                User user = authenticationService.authenticate(n,p);
+                HttpSession session=request.getSession();
+                String sessionId=session.getId();
+                user.setSessionId(sessionId);
 
-               objectMapper.writeValue(out, user);
-           }
+                objectMapper.writeValue(out, user);
+
+
+
+
+            }
+            else{
+                response.setStatus(400);
+            }
+
 
 
         }catch (Exception e2) {System.out.println(e2);}
 
         out.close();
 
-    }
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
 
 
 

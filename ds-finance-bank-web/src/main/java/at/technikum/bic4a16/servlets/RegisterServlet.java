@@ -30,6 +30,11 @@ public class RegisterServlet extends HttpServlet {
     CustomerService customerService;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
@@ -57,9 +62,6 @@ public class RegisterServlet extends HttpServlet {
 
         out.close();
 
-    }
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
 
 
 
