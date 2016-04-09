@@ -76,6 +76,17 @@
         <servlet-class>at.technikum.bic4a16.servlets.FinancialTransactionServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>at.technikum.bic4a16.servlets.RegisterServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>AuthenticationServlet</servlet-name>
+        <servlet-class>at.technikum.bic4a16.servlets.AuthenticationServlet</servlet-class>
+    </servlet>
+
+
 
     <!-- Faces Servlet Mapping -->
     <servlet-mapping>
@@ -96,6 +107,16 @@
     <servlet-mapping>
         <servlet-name>FinancialTransactionServlet</servlet-name>
         <url-pattern>/companies/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>AuthenticationServlet</servlet-name>
+        <url-pattern>/authenticate</url-pattern>
     </servlet-mapping>
 
     <!-- Welcome files -->

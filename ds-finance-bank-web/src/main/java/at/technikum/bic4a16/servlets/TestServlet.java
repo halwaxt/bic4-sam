@@ -44,6 +44,7 @@ import java.util.*;
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
 
         LOG.info("http GET method invoked");
 
@@ -80,6 +81,7 @@ import java.util.*;
 
         final Stock[] portfolio = customerService.getPortfolio(customer);
         LOG.info("customer owns stocks: " + portfolio.length);
+        out.print("schau ma mal obs da geht");
 
     }
 }
