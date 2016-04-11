@@ -131,12 +131,12 @@
     </welcome-file-list>
 
     <security-constraint>
-        <web-resource-collection>
+        <!-- <web-resource-collection>
             <web-resource-name>DS Finance Bank</web-resource-name>
             <description>Only authenticated users are allowed to access the Web application.</description>
             <url-pattern>/*</url-pattern>
             <http-method>POST</http-method>
-        </web-resource-collection>
+        </web-resource-collection> -->
         <auth-constraint>
             <role-name>bank</role-name>
         </auth-constraint>

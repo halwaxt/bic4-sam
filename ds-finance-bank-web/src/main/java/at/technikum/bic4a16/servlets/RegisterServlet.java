@@ -29,43 +29,42 @@ public class RegisterServlet extends HttpServlet {
     @EJB
     CustomerService customerService;
 
+    protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        super.doOptions(request,  response);
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
+
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        String k=request.getParameter("kundenname");
-        String n=request.getParameter("username");
-        String p=request.getParameter("password");
+        String k = request.getParameter("customername");
+        String n = request.getParameter("username");
+        String p = request.getParameter("password");
         boolean e = new Boolean(request.getParameter("isEmployee")).booleanValue();
         ObjectMapper objectMapper = new ObjectMapper();
 
-
-
-        try{
-
+        try {
             Customer customer = customerService.createCustomer(k);
-            if(n.length()==0){
+            if (n.length() == 0) {
                 objectMapper.writeValue(out, customer);
-            }
-            else {
+            } else {
                 User user = authenticationService.createUser(n, p, e, customer);
                 objectMapper.writeValue(out, user);
             }
+        } catch (Exception e2) {
+            System.out.println(e2);
+            response.setStatus(400);
+        }
 
-
-        }catch (Exception e2) {System.out.println(e2);}
-
+        response.addHeader("Access-Control-Allow-Origin", "*");
         out.close();
-
-
-
-
-
-
     }
 }

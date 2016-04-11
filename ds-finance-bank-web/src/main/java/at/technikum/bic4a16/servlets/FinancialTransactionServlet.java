@@ -35,6 +35,12 @@ public class FinancialTransactionServlet extends HttpServlet {
     @EJB
     CompanyService companyService;
 
+    protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        super.doOptions(request,  response);
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         LOG.info("Action=" + request.getParameter("action"));
@@ -73,6 +79,8 @@ public class FinancialTransactionServlet extends HttpServlet {
         objectMapper.writeValue(out, financialTransaction);
 
         out.flush();
+
+        response.addHeader("Access-Control-Allow-Origin", "*");
         out.close();
 
     }

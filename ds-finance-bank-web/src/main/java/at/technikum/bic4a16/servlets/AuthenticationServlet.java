@@ -29,10 +29,16 @@ public class AuthenticationServlet extends HttpServlet {
     AuthenticationService authenticationService;
     @EJB
     CustomerService customerService;
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 
+    protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        super.doOptions(request,  response);
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
     }
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -41,43 +47,25 @@ public class AuthenticationServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         ObjectMapper objectMapper = new ObjectMapper();
 
+        String n = request.getParameter("username");
+        String p = request.getParameter("password");
 
-        String n=request.getParameter("username");
-        String p=request.getParameter("password");
-
-
-
-
-
-        try{
-
-
-            if( authenticationService.authenticate(n,p)!=null){
-                User user = authenticationService.authenticate(n,p);
-                HttpSession session=request.getSession();
-                String sessionId=session.getId();
+        try {
+            if (authenticationService.authenticate(n, p) != null) {
+                User user = authenticationService.authenticate(n, p);
+                HttpSession session = request.getSession();
+                String sessionId = session.getId();
                 user.setSessionId(sessionId);
-
                 objectMapper.writeValue(out, user);
-
-
-
-
-            }
-            else{
+            } else {
                 response.setStatus(400);
             }
+        } catch (Exception e2) {
+            System.out.println(e2);
+            response.setStatus(400);
+        }
 
-
-
-        }catch (Exception e2) {System.out.println(e2);}
-
+        response.addHeader("Access-Control-Allow-Origin", "*");
         out.close();
-
-
-
-
-
-
     }
 }
