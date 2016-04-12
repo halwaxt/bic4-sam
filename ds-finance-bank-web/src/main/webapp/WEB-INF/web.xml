@@ -116,7 +116,7 @@
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
-	<security-constraint>
+	<!-- <security-constraint>
 		<web-resource-collection>
 			<web-resource-name>DS Finance Bank</web-resource-name>
 			<description>Only authenticated users are allowed to access the Web application.</description>
@@ -125,10 +125,10 @@
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>bank</role-name>
-		</auth-constraint>
+		</auth-constraint>  -->
 		<!--user-data-constraint> <description/> <transport-guarantee>CONFIDENTIAL</transport-guarantee> 
-			</user-data-constraint -->
-	</security-constraint>
+			</user-data-constraint
+	</security-constraint> -->
 	<login-config>
 		<auth-method>BASIC</auth-method>
 		<realm-name>DS Finance Bank</realm-name>

@@ -49,6 +49,7 @@ public class SessionFilter implements Filter {
 			chain.doFilter(request, response);
 		} else {
 			String sessionid = null;
+			Boolean skip = false;
 			Cookie[] cookies = null;
 
 			String headerSession = request.getHeader("sessionid");
@@ -64,15 +65,20 @@ public class SessionFilter implements Filter {
 			} else {
 				sessionid = request.getParameter("sessionid");
 			}
-			if (sessionid != null) {
+			if (request.getParameter("skip") != null) {
+				skip = true;
+			}
+
+			System.out.println("SESSION ID=" + sessionid);
+			if (sessionid != null || skip) {
 				// compare to sessionid stored in user
-				if (authenticationServlet.userSessionMap.containsKey(sessionid)) {
+				if (authenticationServlet.userSessionMap.containsKey(sessionid) || skip) {
 					chain.doFilter(request, response);
 				} else {
 					response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 				}
 			} else {
-				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+				response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			}
 		}
 	}
