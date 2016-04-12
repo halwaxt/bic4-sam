@@ -86,6 +86,16 @@
 		<servlet-class>at.technikum.bic4a16.servlets.CustomerServlet</servlet-class>
 	</servlet>
 
+	<servlet>
+		<servlet-name>CustomerTransactionServlet</servlet-name>
+		<servlet-class>at.technikum.bic4a16.servlets.CustomerTransactionServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>CustomerPortfolioServlet</servlet-name>
+		<servlet-class>at.technikum.bic4a16.servlets.CustomerPortfolioServlet</servlet-class>
+	</servlet>
+
 	<!-- Faces Servlet Mapping -->
 	<!-- <servlet-mapping> <servlet-name>Faces Servlet</servlet-name> <url-pattern>*.xhtml</url-pattern> 
 		</servlet-mapping> -->
@@ -116,7 +126,17 @@
 
 	<servlet-mapping>
 		<servlet-name>CustomerServlet</servlet-name>
-		<url-pattern>/customer</url-pattern>
+		<url-pattern>/customers</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>CustomerTransactionServlet</servlet-name>
+		<url-pattern>/customertrans</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>CustomerPortfolioServlet</servlet-name>
+		<url-pattern>/portfolio</url-pattern>
 	</servlet-mapping>
 
 	<!-- Welcome files -->
