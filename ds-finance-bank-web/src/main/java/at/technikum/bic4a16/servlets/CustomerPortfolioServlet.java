@@ -44,7 +44,7 @@ public class CustomerPortfolioServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(out, customer);
+        // objectMapper.writeValue(out, customer);
         objectMapper.writeValue(out, stocks);
 
         out.flush();

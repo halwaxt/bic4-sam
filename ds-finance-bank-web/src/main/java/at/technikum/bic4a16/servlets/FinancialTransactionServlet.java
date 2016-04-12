@@ -59,14 +59,8 @@ public class FinancialTransactionServlet extends HttpServlet {
             action = Action.SELL;
         }
 
-        // TODO: replace with currently active customer //
-        final Customer[] allCustomers = customerService.getAllCustomers();
-        if (allCustomers.length == 0) {
-            response.sendError(404);
-            return;
-        }
+        Customer customer = customerService.getCustomer(Integer.parseInt(request.getParameter("customerId")));
 
-        Customer customer = allCustomers[0];
         LOG.info("using customer " + customer.getName());
         Company company = companyService.getCompany(symbol);
         FinancialTransactionRequest financialTransactionRequest = financialService.createRequest(customer, company, shares, action);
