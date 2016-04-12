@@ -81,6 +81,11 @@
 		<servlet-class>at.technikum.bic4a16.servlets.AuthenticationServlet</servlet-class>
 	</servlet>
 
+	<servlet>
+		<servlet-name>CustomerServlet</servlet-name>
+		<servlet-class>at.technikum.bic4a16.servlets.CustomerServlet</servlet-class>
+	</servlet>
+
 	<!-- Faces Servlet Mapping -->
 	<!-- <servlet-mapping> <servlet-name>Faces Servlet</servlet-name> <url-pattern>*.xhtml</url-pattern> 
 		</servlet-mapping> -->
@@ -107,6 +112,11 @@
 	<servlet-mapping>
 		<servlet-name>AuthenticationServlet</servlet-name>
 		<url-pattern>/authenticate</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>CustomerServlet</servlet-name>
+		<url-pattern>/customer</url-pattern>
 	</servlet-mapping>
 
 	<!-- Welcome files -->
