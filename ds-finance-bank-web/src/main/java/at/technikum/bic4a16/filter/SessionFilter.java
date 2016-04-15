@@ -45,7 +45,7 @@ public class SessionFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 
 		String path = request.getRequestURI();
-		if (path.equals("/ds-finance-bank-web/") || path.contains("/authenticate") || path.contains("/register")) {
+		if (path.equals("/ds-finance-bank-web/") || path.contains("/authenticate") || path.contains("/register") || path.contains("/companies")) {
 			chain.doFilter(request, response);
 		} else {
 			String sessionid = null;
