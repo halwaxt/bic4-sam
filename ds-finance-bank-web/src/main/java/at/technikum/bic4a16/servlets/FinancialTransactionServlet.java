@@ -59,7 +59,7 @@ public class FinancialTransactionServlet extends HttpServlet {
             action = Action.SELL;
         }
 
-        Customer customer = customerService.getCustomer(Integer.parseInt(request.getParameter("customerId")));
+        Customer customer = customerService.getCustomer(Integer.parseInt(request.getParameter("ID")));
 
         LOG.info("using customer " + customer.getName());
         Company company = companyService.getCompany(symbol);
