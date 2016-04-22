@@ -55,6 +55,7 @@ public class AuthenticationServlet extends HttpServlet {
 			User user = null;
 			if ((user = authenticationService.authenticate(n, p)) != null) {
 				HttpSession session = request.getSession();
+
 				String sessionId = session.getId();
 				user.setSessionId(sessionId);
 
