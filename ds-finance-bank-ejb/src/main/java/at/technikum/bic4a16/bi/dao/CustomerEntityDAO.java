@@ -24,7 +24,7 @@ public class CustomerEntityDAO {
     @PersistenceContext private EntityManager entityManager;
     
     public CustomerEntity get(Integer id) {
-        return entityManager.find(CustomerEntity.class, 1);
+        return entityManager.find(CustomerEntity.class, id);
     }
 
     public List<CustomerEntity> getAll() {
