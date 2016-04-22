@@ -13,11 +13,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import at.technikum.bic4a16.bi.model.User;
 import at.technikum.bic4a16.servlets.AuthenticationServlet;
 
 /**
- * Created by Thomas Unger on 07.04.2016
- * Servlet Filter implementation class SessionFilter
+ * Created by Thomas Unger on 07.04.2016 Servlet Filter implementation class
+ * SessionFilter
  */
 @WebFilter("/SessionFilter")
 public class SessionFilter implements Filter {
@@ -45,7 +46,8 @@ public class SessionFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 
 		String path = request.getRequestURI();
-		if (path.equals("/ds-finance-bank-web/") || path.contains("/authenticate") || path.contains("/register")) {
+		if (path.equals("/ds-finance-bank-web/") || path.contains("/authenticate") || path.contains("/register")
+				|| path.contains("/companies")) {
 			chain.doFilter(request, response);
 		} else {
 			String sessionid = null;
@@ -70,10 +72,23 @@ public class SessionFilter implements Filter {
 			}
 
 			System.out.println("SESSION ID=" + sessionid);
+
 			if (sessionid != null || skip) {
-				// compare to sessionid stored in user
 				if (authenticationServlet.userSessionMap.containsKey(sessionid) || skip) {
-					chain.doFilter(request, response);
+					if (path.contains("/transaction") || path.contains("/customertrans") || path.contains("/portfolio")) {
+						int customerIdFromParameter = Integer.parseInt(request.getParameter("ID"));
+						User user = authenticationServlet.userSessionMap.get(sessionid);
+						int customerIdFromMap = user.getCustomer().getId();
+						if (customerIdFromParameter == customerIdFromMap) {
+							chain.doFilter(request, response);
+						} else if (user.getIsEmployee()) {
+							chain.doFilter(request, response);
+						} else {
+							response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+						}
+					} else {
+						doFilter(request, response, chain);
+					}
 				} else {
 					response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 				}

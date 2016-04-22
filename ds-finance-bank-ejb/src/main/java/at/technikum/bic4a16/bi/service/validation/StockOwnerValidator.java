@@ -51,7 +51,7 @@ public class StockOwnerValidator implements ValidationTask {
             return false;
         }
 
-        final Optional<Stock> ownedStock = portfolio.stream().filter(stock -> stock.getCompany().equals(financialTransaction.getCompany())).findFirst();
+        final Optional<Stock> ownedStock = portfolio.stream().filter(stock -> stock.getCompany().getName().equals(financialTransaction.getCompany().getName())).findFirst();
         if (! ownedStock.isPresent()) {
             entity.setMessage("Customer does not own the share.");
             entity.setState(State.DECLINED);
@@ -61,7 +61,7 @@ public class StockOwnerValidator implements ValidationTask {
         if (ownedStock.get().getNumberOfShares() < financialTransaction.getNumberOfShares()) {
             entity.setMessage("Customer does not own desired number of shares.");
             entity.setState(State.DECLINED);
-            return true;
+            return false;
         }
 
         return true;
