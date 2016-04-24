@@ -19,6 +19,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +27,7 @@ import java.util.Optional;
 @Startup
 public class StockOwnerValidator implements ValidationTask {
     private static final Logger LOG = LoggerFactory.getLogger(StockOwnerValidator.class);
+    private static final BigDecimal banklimit = new BigDecimal(1000000000);
 
     @EJB
     FinancialTransactionDAO financialTransactionDAO;
@@ -36,11 +38,17 @@ public class StockOwnerValidator implements ValidationTask {
         validationRegistry.register(this);
     }
 
+
+
     @Override
     public boolean isValid(FinancialTransaction financialTransaction) {
+        BigDecimal bankamount = new BigDecimal(0);
+        final List<Stock> bankportolio = financialTransactionDAO.BankLimit();
 
-        // do not care about buying
-        if (financialTransaction.getAction() == Action.BUY) return true;
+        for (int i = 0; i < bankportolio.size(); i++) {
+            bankamount.add(bankportolio.get(i).getCurrentValue());
+        }
+        if (financialTransaction.getAction() == Action.BUY && bankamount.compareTo(banklimit)<0) return true;
 
         final List<Stock> portfolio = financialTransactionDAO.getPortfolio((CustomerEntity) financialTransaction.getCustomer());
         FinancialTransactionEntity entity = (FinancialTransactionEntity)financialTransaction;

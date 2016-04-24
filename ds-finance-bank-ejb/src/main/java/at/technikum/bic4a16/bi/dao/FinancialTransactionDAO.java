@@ -64,4 +64,18 @@ public class FinancialTransactionDAO {
         query.setParameter("customer_id", customer.getId());
         return query.getResultList();
     }
+
+    public List<Stock> BankLimit() {
+        String nativeQuery =
+                "SELECT rownum() as IDENTITY , * FROM (SELECT COMPANY_FK, -1* sum(actionvalue * numberofshares) as SHARES FROM TRANSACTION " +
+                        "WHERE state='COMPLETED' " +
+                        "GROUP BY company_fk " +
+                        "HAVING sum(actionvalue * numberofshares) < 0)";
+
+        final Query query = entityManager.createNativeQuery(nativeQuery, StockEntity.class);
+
+        return query.getResultList();
+    }
+
+
 }
