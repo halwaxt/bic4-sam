@@ -75,7 +75,7 @@ public class SessionFilter implements Filter {
 
 			if (sessionid != null || skip) {
 				if (authenticationServlet.userSessionMap.containsKey(sessionid) || skip) {
-					if (path.contains("/transaction") || path.contains("/customertrans") || path.contains("/portfolio")) {
+					if (!skip && (path.contains("/transaction") || path.contains("/customertrans") || path.contains("/portfolio"))) {
 						int customerIdFromParameter = Integer.parseInt(request.getParameter("ID"));
 						User user = authenticationServlet.userSessionMap.get(sessionid);
 						int customerIdFromMap = user.getCustomer().getId();
@@ -87,7 +87,7 @@ public class SessionFilter implements Filter {
 							response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 						}
 					} else {
-						doFilter(request, response, chain);
+						chain.doFilter(request, response);
 					}
 				} else {
 					response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
