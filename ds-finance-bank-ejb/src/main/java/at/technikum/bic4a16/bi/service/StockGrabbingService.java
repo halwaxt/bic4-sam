@@ -46,7 +46,7 @@ public class StockGrabbingService {
             return;
         }
 
-        scheduledFuture = scheduledExecutorService.scheduleWithFixedDelay(grabAllStocks(), 5, 600, TimeUnit.SECONDS);
+        scheduledFuture = scheduledExecutorService.scheduleWithFixedDelay(grabAllStocks(), 5, 30, TimeUnit.SECONDS);
         LOGGER.info("created scheduled grabbing");
     }
 
