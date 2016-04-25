@@ -1,0 +1,70 @@
+<div>
+    <h2>Companies</h2>
+    <ul class="effectiveCompanies">
+        <label for="search"></label>
+        <input
+                type="text"
+                #search
+                id="search"
+                ng-control="search"
+                required>
+        <button (click)="onSearch(search)">Search</button>
+        <div id="table-wrapper">
+            <div id="table-scroll">
+                <table cellspacing="10" cellpadding="20" border="5">
+                    <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>Name</td>
+                        <td>Symbol</td>
+                        <td>Last Trading Price</td>
+                        <td>Float Shares</td>
+                        <td>Stock Exchange</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="#company of effectiveCompanies"
+                        [class.selected]="company === selectedCompany"
+                        (click)="onSelect(company)">
+                        <td><span class="badge">{{company.id}}</span></td>
+                        <td>{{company.name}}</td>
+                        <td>{{company.symbol}}</td>
+                        <td>{{company.lastTradingPrice}}</td>
+                        <td>{{company.floatShares}}</td>
+                        <td>{{company.stockExchange}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ul>
+
+    <form role="form">
+        <div *ngIf="selectedCompany">
+            <h2>{{selectedCompany.name | uppercase}}:</h2>
+            <br><label for="numberOfShares">Number of Shares</label>
+            <input
+                    type="text"
+                    #numberOfShares
+                    id="numberOfShares"
+                    ng-control="numberOfShares"
+                    required>
+            <div>
+                <select #action name="action" size="1">
+                    <option>BUY</option>
+                    <option>SELL</option>
+                </select>
+            </div>
+            <br>
+            <button (click)="buyOrSell(numberOfShares, action)">OK</button>
+
+            <div *ngIf="transactionDone">
+                <br><label>Transaction-Request done</label>
+            </div>
+            <div *ngIf="transactionFailed">
+                <br><label>Transaction-Request failed</label>
+            </div>
+        </div>
+    </form>
+
+</div>

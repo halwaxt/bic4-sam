@@ -1,0 +1,33 @@
+<form role="form" *ngIf="isLoggedOut">
+    <div ng-control-group="credentials" ng-if="email && !authenticationDone">
+        <br><label for="email">E-Mail</label>
+        <input
+                type="text"
+                #email
+                id="email"
+                ng-control="email"
+                required>
+
+        <br><label for="password">Password</label>
+        <input
+                type="password"
+                #password
+                id="password"
+                ng-control="password"
+                required>
+    </div>
+
+    <button (click)="doAuthenticate(email, password)">Login</button>
+
+    <div *ngIf="authenticationDone">
+        <br><label>Successfully authenticated</label>
+    </div>
+    <div *ngIf="authenticationFailed">
+        <br><label>Authentication failed</label>
+    </div>
+
+</form>
+
+<form role="form" *ngIf="!isLoggedOut">
+    <button (click)="doLogout()">Logout</button>
+</form>

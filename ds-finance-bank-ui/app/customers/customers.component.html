@@ -1,0 +1,29 @@
+<div *ngIf="hasAccess">
+    <br>
+    <br>
+    <input type="submit" value="Create Customer"
+           onclick="window.location='/customers/create';"/>
+    <div *ngIf="isOtherCustomer">
+    <input type="submit" value="Change Back"
+           (click)="onSelect()"/>
+    </div>
+    <h2>My Customers</h2>
+    <ul class="effectiveCustomers">
+        <table cellspacing="10" cellpadding="20" border="5">
+            <tr>
+                <td>ID</td>
+                <td>Name</td>
+            </tr>
+            <tr *ngFor="#customer of effectiveCustomers"
+                [class.selected]="customer === selectedCustomer"
+                (click)="onSelect(customer)">
+                <td><span class="badge">{{customer.id}}</span></td>
+                <td>{{customer.name}}</td>
+            </tr>
+        </table>
+    </ul>
+</div>
+
+<div *ngIf="!hasAccess">
+    <br><label>Unauthorized</label>
+</div>

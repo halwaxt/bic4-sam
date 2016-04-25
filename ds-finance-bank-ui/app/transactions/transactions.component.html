@@ -1,0 +1,54 @@
+<div *ngIf="hasAccess">
+  <h2>Transactions as {{name}}</h2>
+  <ul class="effectiveTransactions">
+    <label for="search"></label>
+    <input
+            type="text"
+            #search
+            id="search"
+            ng-control="search"
+            required>
+    <button (click)="onSearch(search)">Search</button>
+    <div id="table-wrapper">
+      <div id="table-scroll">
+        <table cellspacing="10" cellpadding="20" border="5">
+          <thead>
+          <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Symbol</td>
+            <td>Last Trading Price</td>
+            <td>Float Shares</td>
+            <td>Stock Exchange</td>
+            <td>Number of shares</td>
+            <td>State</td>
+            <td>Price</td>
+            <td>Message</td>
+            <td>Action</td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="#transaction of effectiveTransactions">
+            <td>{{transaction.id}}</td>
+            <td>{{transaction.company.name}}</td>
+            <td>{{transaction.company.symbol}}</td>
+            <td>{{transaction.company.lastTradingPrice}}</td>
+            <td>{{transaction.company.floatShares}}</td>
+            <td>{{transaction.company.stockExchange}}</td>
+            <td>{{transaction.numberOfShares}}</td>
+            <td>{{transaction.state}}</td>
+            <td>{{transaction.price}}</td>
+            <td>{{transaction.message}}</td>
+            <td>{{transaction.action}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ul>
+
+</div>
+
+<div *ngIf="!hasAccess">
+  <br><label>Unauthorized</label>
+</div>
