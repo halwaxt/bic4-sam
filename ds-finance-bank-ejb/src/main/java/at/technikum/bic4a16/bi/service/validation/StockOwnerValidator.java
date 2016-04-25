@@ -32,6 +32,9 @@ public class StockOwnerValidator implements ValidationTask {
     @EJB
     FinancialTransactionDAO financialTransactionDAO;
 
+    public StockOwnerValidator() {
+    }
+
     @Inject
     public StockOwnerValidator(TransactionValidationRegistry validationRegistry) {
         LOG.info("registering at " + validationRegistry.toString());
@@ -43,35 +46,50 @@ public class StockOwnerValidator implements ValidationTask {
     @Override
     public boolean isValid(FinancialTransaction financialTransaction) {
         BigDecimal bankamount = new BigDecimal(0);
+        BigDecimal numberofShares = BigDecimal.valueOf(financialTransaction.getNumberOfShares());
+        BigDecimal price = BigDecimal.valueOf(financialTransaction.getPrice());
         final List<Stock> bankportolio = financialTransactionDAO.BankLimit();
 
         for (int i = 0; i < bankportolio.size(); i++) {
             bankamount.add(bankportolio.get(i).getCurrentValue());
         }
-        if (financialTransaction.getAction() == Action.BUY && bankamount.compareTo(banklimit)<0) return true;
-
-        final List<Stock> portfolio = financialTransactionDAO.getPortfolio((CustomerEntity) financialTransaction.getCustomer());
-        FinancialTransactionEntity entity = (FinancialTransactionEntity)financialTransaction;
-
-        if (portfolio.size() == 0) {
-            entity.setMessage("Customer does not own any shares.");
-            entity.setState(State.DECLINED);
-            return false;
+        
+        bankamount = bankamount.add(price.multiply(numberofShares));
+        
+        if (financialTransaction.getAction() == Action.BUY) {
+            if (financialTransaction.getAction() == Action.BUY && bankamount.compareTo(banklimit)<0) return true;
+            else {
+                FinancialTransactionEntity entity = (FinancialTransactionEntity)financialTransaction;
+                entity.setMessage("Bank limit exceeded.");
+                entity.setState(State.DECLINED);
+                return false;
+            }
         }
+        
+        else if (financialTransaction.getAction() == Action.SELL){
+            final List<Stock> portfolio = financialTransactionDAO.getPortfolio((CustomerEntity) financialTransaction.getCustomer());
+            FinancialTransactionEntity entity = (FinancialTransactionEntity)financialTransaction;
 
-        final Optional<Stock> ownedStock = portfolio.stream().filter(stock -> stock.getCompany().getName().equals(financialTransaction.getCompany().getName())).findFirst();
-        if (! ownedStock.isPresent()) {
-            entity.setMessage("Customer does not own the share.");
-            entity.setState(State.DECLINED);
-            return false;
+            if (portfolio.size() == 0) {
+                entity.setMessage("Customer does not own any shares.");
+                entity.setState(State.DECLINED);
+                return false;
+            }
+
+            final Optional<Stock> ownedStock = portfolio.stream().filter(stock -> stock.getCompany().getName().equals(financialTransaction.getCompany().getName())).findFirst();
+            if (! ownedStock.isPresent()) {
+                entity.setMessage("Customer does not own the share.");
+                entity.setState(State.DECLINED);
+                return false;
+            }
+
+            if (ownedStock.get().getNumberOfShares() < financialTransaction.getNumberOfShares()) {
+                entity.setMessage("Customer does not own desired number of shares.");
+                entity.setState(State.DECLINED);
+                return false;
+            }
+            return true;
         }
-
-        if (ownedStock.get().getNumberOfShares() < financialTransaction.getNumberOfShares()) {
-            entity.setMessage("Customer does not own desired number of shares.");
-            entity.setState(State.DECLINED);
-            return false;
-        }
-
         return true;
     }
 }

@@ -1,7 +1,7 @@
 package at.technikum.bic4a16.bi.model;
 
 public class DefaultFinancialTransactionRequest implements FinancialTransactionRequest {
-
+    
     private Company company;
     private Customer customer;
     private int numberOfShares;
