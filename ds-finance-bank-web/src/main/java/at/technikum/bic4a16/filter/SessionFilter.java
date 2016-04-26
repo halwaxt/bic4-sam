@@ -71,8 +71,6 @@ public class SessionFilter implements Filter {
 				skip = true;
 			}
 
-			System.out.println("SESSION ID=" + sessionid);
-
 			if (sessionid != null || skip) {
 				if (authenticationServlet.userSessionMap.containsKey(sessionid) || skip) {
 					if (!skip && (path.contains("/transaction") || path.contains("/customertrans") || path.contains("/portfolio"))) {

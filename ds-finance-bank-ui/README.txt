@@ -6,3 +6,4 @@ Die folgende Schritte sind notwendig um die UI zum Laufen zu bekommen:
 - bower install ausführen
 - npm start ausführen
 - Die UI wird auf Port 3000 gestartet
+- Aufgrund von Cross-Origin-Resource-Sharing ist beim Browser ein CORS Add-On zu installieren und aktivieren (zB beim Chrome: Allow-Control-Allow-Origin: *)
