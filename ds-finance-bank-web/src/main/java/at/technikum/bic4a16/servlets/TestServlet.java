@@ -40,8 +40,7 @@ import java.util.*;
 
     protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         super.doOptions(request,  response);
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
+        ResponseHelper.SetAccessControlHeaders(response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

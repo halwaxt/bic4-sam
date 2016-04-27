@@ -28,13 +28,13 @@ public class CustomerTransactionServlet extends HttpServlet {
 
     protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         super.doOptions(request,  response);
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
+        ResponseHelper.SetAccessControlHeaders(response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("ID"));
+        ResponseHelper.SetAccessControlHeaders(response);
 
+        int id = Integer.parseInt(request.getParameter("ID"));
 
         Customer customer = customerService.getCustomer(id);
         FinancialTransaction[] transactions = customerService.getTransactions(customer);
@@ -47,8 +47,6 @@ public class CustomerTransactionServlet extends HttpServlet {
         objectMapper.writeValue(out, transactions);
 
         out.flush();
-
-        response.addHeader("Access-Control-Allow-Origin", "*");
         out.close();
     }
 }

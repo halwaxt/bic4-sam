@@ -43,37 +43,51 @@ public class AuthenticationServlet extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		ResponseHelper.SetAccessControlHeaders(response);
 		response.setContentType("application/json");
-		PrintWriter out = response.getWriter();
-		ObjectMapper objectMapper = new ObjectMapper();
 
-		String n = request.getParameter("username");
-		String p = request.getParameter("password");
+		String username = request.getParameter("username");
+		if (username == null || username.length() == 0) {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			LOG.warn("no username found");
+			return;
+		}
+
+		String password = request.getParameter("password");
+		if (password == null || password.length() == 0) {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			LOG.warn("no password found");
+			return;
+		}
 
 		try {
 			User user = null;
-			if ((user = authenticationService.authenticate(n, p)) != null) {
-				HttpSession session = request.getSession();
-
-				String sessionId = session.getId();
-				user.setSessionId(sessionId);
-
-				userSessionMap.put(sessionId, user);
-
-				Cookie sessionCookie = new Cookie("sessionid", sessionId);
-				response.addCookie(sessionCookie);
-
-				objectMapper.writeValue(out, user);
-
-			} else {
-				response.setStatus(400);
+			if ((user = authenticationService.authenticate(username, password)) == null) {
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				LOG.warn("no user found or wrong password for " + username);
+				return;
 			}
+
+			HttpSession session = request.getSession();
+
+			String sessionId = session.getId();
+			user.setSessionId(sessionId);
+
+			userSessionMap.put(sessionId, user);
+
+			Cookie sessionCookie = new Cookie("sessionid", sessionId);
+			response.addCookie(sessionCookie);
+
+			PrintWriter out = response.getWriter();
+			ObjectMapper objectMapper = new ObjectMapper();
+
+			objectMapper.writeValue(out, user);
+
+			out.flush();
+			out.close();
+
 		} catch (Exception e2) {
-			System.out.println(e2);
+			LOG.warn("authentication failed", e2);
 		}
-
-		out.close();
-
 	}
 }

@@ -5,7 +5,6 @@ import at.technikum.bic4a16.bi.service.CompanyService;
 import at.technikum.bic4a16.bi.service.CustomerService;
 import at.technikum.bic4a16.bi.service.FinancialService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 /**
  * Created by Patrik on 22.03.2016.
@@ -25,6 +23,7 @@ import java.util.ArrayList;
 @SessionScoped
 public class FinancialTransactionServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(FinancialTransactionServlet.class);
+
 
     @EJB
     FinancialService financialService;
@@ -37,26 +36,41 @@ public class FinancialTransactionServlet extends HttpServlet {
 
     protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         super.doOptions(request,  response);
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
+        ResponseHelper.SetAccessControlHeaders(response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        ResponseHelper.SetAccessControlHeaders(response);
 
         LOG.info("Action=" + request.getParameter("action"));
         LOG.info("Numbers=" + request.getParameter("numbers"));
         LOG.info("Symbol=" + request.getParameter("symbol"));
 
-        String actionString = request.getParameter("action");
+        String actionString = request.getParameter("action").toUpperCase();
         Action action;
         String symbol = request.getParameter("symbol");
-        int shares = Integer.parseInt(request.getParameter("numbers"));
 
-        if(actionString.equals("BUY")) {
+        int shares;
+        try {
+            shares = Integer.parseInt(request.getParameter("numbers"));
+        }
+        catch (NumberFormatException nfEx) {
+            LOG.warn("numbers param is not an number.", nfEx);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
+        if("BUY".equals(actionString)) {
             action = Action.BUY;
         }
-        else {
+        else if ("SELL".equals(actionString)) {
             action = Action.SELL;
+        }
+        else {
+            LOG.warn("unknown action " + actionString);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
         }
 
         Customer customer = customerService.getCustomer(Integer.parseInt(request.getParameter("ID")));
@@ -73,9 +87,6 @@ public class FinancialTransactionServlet extends HttpServlet {
         objectMapper.writeValue(out, financialTransaction);
 
         out.flush();
-
-        response.addHeader("Access-Control-Allow-Origin", "*");
         out.close();
-
     }
 }

@@ -65,7 +65,11 @@ public class FinancialTransactionDAO {
         return query.getResultList();
     }
 
-    public List<Stock> BankLimit() {
+    /**
+     *
+     * @return A list of all shares owned by the bank
+     */
+    public List<Stock> getPortfolio() {
         String nativeQuery =
                 "SELECT rownum() as IDENTITY , * FROM (SELECT COMPANY_FK, -1* sum(actionvalue * numberofshares) as SHARES FROM TRANSACTION " +
                         "WHERE state='COMPLETED' " +

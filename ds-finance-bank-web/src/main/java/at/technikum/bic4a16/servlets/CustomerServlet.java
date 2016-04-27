@@ -27,12 +27,11 @@ public class CustomerServlet extends HttpServlet {
 
     protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         super.doOptions(request,  response);
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
+        ResponseHelper.SetAccessControlHeaders(response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        ResponseHelper.SetAccessControlHeaders(response);
         Customer[] customers = customerService.getAllCustomers();
 
         response.setContentType("application/json");
@@ -42,8 +41,6 @@ public class CustomerServlet extends HttpServlet {
         objectMapper.writeValue(out, customers);
 
         out.flush();
-
-        response.addHeader("Access-Control-Allow-Origin", "*");
         out.close();
     }
 }

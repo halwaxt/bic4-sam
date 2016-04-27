@@ -41,7 +41,7 @@ public class DefaultFinancialTransactionRequest implements FinancialTransactionR
     }
 
     public void setNumberOfShares(int numberOfShares) {
-        this.numberOfShares = numberOfShares;
+        this.numberOfShares = Math.abs(numberOfShares);
     }
 
     public void setAction(Action action) {

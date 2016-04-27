@@ -36,23 +36,20 @@ public class CompanyServlet extends HttpServlet {
 
     protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         super.doOptions(request,  response);
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
+        ResponseHelper.SetAccessControlHeaders(response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ResponseHelper.SetAccessControlHeaders(response);
+        response.setContentType("application/json");
 
         Company[] companies = companyService.getAllCompanies();
-
-        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(out, companies);
 
         out.flush();
-
-        response.addHeader("Access-Control-Allow-Origin", "*");
         out.close();
     }
 }
